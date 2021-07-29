@@ -1,0 +1,21 @@
+/orders/delete/{order_id}:
+ delete:
+   tags:
+     - orders
+   description: Delete a order
+   parameters:
+     - name: order_id
+       in: path
+       required: true
+       schema:
+        type: number
+        properties:
+          order_id:
+            type: number
+            example: 5
+            required: true
+   produces:
+     - application/json
+   responses:
+     200:
+       description: Order has been deleted.

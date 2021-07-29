@@ -87,31 +87,31 @@ export default class Order extends BaseModel {
   })
   public orderFoods: ManyToMany<typeof Food>
 
-  @afterFind()
-  public static async preloadRestaurantSingle(order: Order) {
-    try {
-      await order.load('orderFoods')
-      await order.load('restaurant')
-      await order.load('user')
-    } catch (err) {
-      console.warn(err.code)
-      console.warn(err.message)
-      console.warn(err.stack)
-    }
-  }
+  // @afterFind()
+  // public static async preloadRestaurantSingle(order: Order) {
+  //   try {
+  //     await order.load('orderFoods')
+  //     await order.load('restaurant')
+  //     await order.load('user')
+  //   } catch (err) {
+  //     console.warn(err.code)
+  //     console.warn(err.message)
+  //     console.warn(err.stack)
+  //   }
+  // }
 
-  @afterFetch()
-  public static async preloadRestaurantMultiple(orders: Order[]) {
-    try {
-      for (let order of orders) {
-        await order.load('orderFoods')
-        await order.load('restaurant')
-        await order.load('user')
-      }
-    } catch (err) {
-      console.warn(err.code)
-      console.warn(err.message)
-      console.warn(err.stack)
-    }
-  }
+  // @afterFetch()
+  // public static async preloadRestaurantMultiple(orders: Order[]) {
+  //   try {
+  //     for (let order of orders) {
+  //       await order.load('orderFoods')
+  //       await order.load('restaurant')
+  //       await order.load('user')
+  //     }
+  //   } catch (err) {
+  //     console.warn(err.code)
+  //     console.warn(err.message)
+  //     console.warn(err.stack)
+  //   }
+  // }
 }

@@ -20,6 +20,34 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+Route.group(() => {
+  Route.get('/', 'RestaurantsController.index')
+  Route.get('/:restaurant_id', 'RestaurantsController.find')
+  Route.post('/store', 'RestaurantsController.store')
+  Route.post('/update/:restaurant_id', 'RestaurantsController.update')
+  Route.delete('/delete/:restaurant_id', 'RestaurantsController.delete')
+}).prefix('/restaurants')
+
+Route.group(() => {
+  Route.get('/', 'FoodsController.index')
+  Route.get('/:food_id', 'FoodsController.find')
+  Route.post('/store', 'FoodsController.store')
+  Route.post('/update/:food_id', 'FoodsController.update')
+  Route.delete('/delete/:food_id', 'FoodsController.delete')
+}).prefix('/foods')
+
+Route.group(() => {
+  Route.get('/', 'OrdersController.index')
+  Route.get('/:order_id', 'OrdersController.find')
+  Route.post('/store', 'OrdersController.store')
+  Route.post('/update/:order_id', 'OrdersController.update')
+  Route.delete('/delete/:order_id', 'OrdersController.delete')
+}).prefix('/orders')
+
+Route.group(() => {
+  Route.get('/', 'UsersController.index')
+  Route.get('/:user_id', 'UsersController.find')
+  Route.post('/store', 'UsersController.store')
+  Route.post('/update/:user_id', 'UsersController.update')
+  Route.delete('/delete/:user_id', 'UsersController.delete')
+}).prefix('/users')

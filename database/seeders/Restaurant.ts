@@ -10,6 +10,7 @@ export default class RestaurantSeeder extends BaseSeeder {
         let restaurant = await Restaurant.create({
           name: faker.company.companyName(),
           typeOfRestaurant: faker.name.jobArea(),
+          logoUrl: faker.image.business(500, 500),
         })
 
         await restaurant.save()

@@ -1,0 +1,30 @@
+
+/users/{user_id}:
+ get:
+   tags:
+     - users
+   description: Find a user
+   parameters:
+     - name: user_id
+       in: path
+       required: true
+       schema:
+        type: number
+        properties:
+          user_id:
+            type: number
+            example: 5
+            required: true
+   produces:
+     - application/json
+   responses:
+     200:
+      description: User has been found.
+      example:
+        message: User has been found.
+        user:
+          email: 'serverigaram@gmail.com'
+          avatarUrl: 'https://placeimg.com/500/500/people?95870'
+          firstName: 'Ibrahim'
+          lastName: 'AKSUET'
+          mobileNumber: '+905301176240'

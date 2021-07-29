@@ -1,0 +1,45 @@
+/foods/update/{food_id}:
+ post:
+   tags:
+     - foods 
+   description: Update a food
+   parameters:
+     - name: food_id
+       in: path
+       required: true
+       schema:
+        type: number
+        properties:
+          food_id:
+            type: number
+            example: 5
+            required: true
+     - name: schema of food
+       in: body
+       required: true
+       schema:
+         properties:
+           name:
+             type: string
+             example: 'Burger'
+             required: false
+           price:
+             type: number
+             example: 25.5
+             required: false
+           imageUrl:
+             type: string
+             format: uri
+             example: 'https://placeimg.com/500/500/people?95870'
+             required: false
+   produces:
+     - application/json
+   responses:
+     200:
+      description: Food has been updated.
+      example:
+        message: Food has been updated.
+        food:
+          name: 'Burger'
+          price: 25.5
+          imageUrl: 'https://placeimg.com/500/500/people?95870'

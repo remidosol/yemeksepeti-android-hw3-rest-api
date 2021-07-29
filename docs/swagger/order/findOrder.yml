@@ -1,0 +1,29 @@
+
+/orders/{order_id}:
+ get:
+   tags:
+     - orders
+   description: Find a order
+   parameters:
+     - name: order_id
+       in: path
+       required: true
+       schema:
+        type: number
+        properties:
+          order_id:
+            type: number
+            example: 5
+            required: true
+   produces:
+     - application/json
+   responses:
+     200:
+      description: Order has been found.
+      example:
+        message: Order has been found.
+        order:
+          restaurantId: 3
+          userId: 5
+          orderNote: 'Please bring the order hot'
+          orderPaymentMethod: CASH

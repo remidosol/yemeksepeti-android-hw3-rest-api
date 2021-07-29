@@ -8,6 +8,7 @@ export default class Restaurants extends BaseSchema {
       table.increments('id')
       table.string('name').notNullable()
       table.string('type_of_restaurant').notNullable()
+      table.string('logo_url').notNullable()
       table.dateTime('updated_at').nullable()
       table.dateTime('created_at').notNullable()
     })

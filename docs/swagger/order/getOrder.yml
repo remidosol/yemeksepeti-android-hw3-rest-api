@@ -1,0 +1,11 @@
+
+/orders:
+ get:
+   tags:
+     - orders
+   description: Get all orders
+   produces:
+     - application/json
+   responses:
+     200:
+       description: A list of orders

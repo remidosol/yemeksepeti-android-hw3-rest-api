@@ -1,0 +1,11 @@
+
+/restaurants:
+ get:
+   tags:
+     - restaurants
+   description: Get all restaurants
+   produces:
+     - application/json
+   responses:
+     200:
+       description: A list of restaurants

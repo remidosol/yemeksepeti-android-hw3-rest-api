@@ -1,0 +1,35 @@
+/foods/store:
+ post:
+   tags:
+     - foods 
+   description: Store a food
+   parameters:
+     - name: schema of food
+       in: body
+       required: true
+       schema:
+         properties:
+           name:
+             type: string
+             example: 'Burger'
+             required: true
+           price:
+             type: number
+             example: 25.5
+             required: true
+           imageUrl:
+             type: string
+             format: uri
+             example: 'https://placeimg.com/500/500/people?95870'
+             required: true
+   produces:
+     - application/json
+   responses:
+     200:
+      description: Food has been stored.
+      example:
+        message: Food has been stored.
+        food:
+          name: 'Burger'
+          price: 25.5
+          imageUrl: 'https://placeimg.com/500/500/people?95870'

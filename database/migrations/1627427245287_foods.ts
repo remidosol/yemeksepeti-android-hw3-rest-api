@@ -8,7 +8,7 @@ export default class Foods extends BaseSchema {
       table.increments('id')
       table.string('name').notNullable()
       table.double('price').notNullable()
-      table.string('imageUrl').notNullable()
+      table.string('image_url').notNullable()
       table.dateTime('updated_at').nullable()
       table.dateTime('created_at').notNullable()
     })

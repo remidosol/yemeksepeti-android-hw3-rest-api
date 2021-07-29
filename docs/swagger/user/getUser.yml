@@ -1,0 +1,11 @@
+
+/users:
+ get:
+   tags:
+     - users
+   description: Get all users
+   produces:
+     - application/json
+   responses:
+     200:
+       description: A list of users

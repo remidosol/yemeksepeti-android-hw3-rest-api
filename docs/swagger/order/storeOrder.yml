@@ -1,0 +1,43 @@
+/orders/store:
+ post:
+   tags:
+     - orders
+   description: Store a order
+   parameters:
+     - name: schema of order
+       in: body
+       required: true
+       schema:
+         properties:
+           restaurantId:
+             type: number
+             example: 5
+             required: true
+           userId:
+             type: number
+             example: 3
+             required: true
+           orderNote:
+             type: string
+             example: 'Please bring the order hot'
+             required: true
+           orderPaymentMethod:
+             type: string
+             enum:
+               - CREDIT_CARD
+               - CASH
+               - COUPON
+             example: CREDIT_CARD
+             required: true
+   produces:
+     - application/json
+   responses:
+     200:
+      description: Order has been stored.
+      example:
+        message: Order has been stored.
+        order:
+          restaurantId: 3
+          userId: 5
+          orderNote: 'Please bring the order hot'
+          orderPaymentMethod: CASH

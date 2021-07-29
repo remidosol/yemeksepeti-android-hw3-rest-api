@@ -37,6 +37,9 @@ export default class Restaurant extends BaseModel {
   @column({ serializeAs: 'typeOfRestaurant' })
   public typeOfRestaurant: string
 
+  @column({ serializeAs: 'logoUrl' })
+  public logoUrl: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
@@ -63,29 +66,29 @@ export default class Restaurant extends BaseModel {
   })
   public restaurantAddress: ManyToMany<typeof Address>
 
-  @afterFind()
-  public static async preloadRestaurantSingle(restaurant: Restaurant) {
-    try {
-      await restaurant.load('restaurantAddress')
-      await restaurant.load('restaurantFoods')
-    } catch (err) {
-      console.warn(err.code)
-      console.warn(err.message)
-      console.warn(err.stack)
-    }
-  }
+  // @afterFind()
+  // public static async preloadRestaurantSingle(restaurant: Restaurant) {
+  //   try {
+  //     await restaurant.load('restaurantAddress')
+  //     await restaurant.load('restaurantFoods')
+  //   } catch (err) {
+  //     console.warn(err.code)
+  //     console.warn(err.message)
+  //     console.warn(err.stack)
+  //   }
+  // }
 
-  @afterFetch()
-  public static async preloadRestaurantMultiple(restaurants: Restaurant[]) {
-    try {
-      for (let restaurant of restaurants) {
-        await restaurant.load('restaurantAddress')
-        await restaurant.load('restaurantFoods')
-      }
-    } catch (err) {
-      console.warn(err.code)
-      console.warn(err.message)
-      console.warn(err.stack)
-    }
-  }
+  // @afterFetch()
+  // public static async preloadRestaurantMultiple(restaurants: Restaurant[]) {
+  //   try {
+  //     for (let restaurant of restaurants) {
+  //       await restaurant.load('restaurantAddress')
+  //       await restaurant.load('restaurantFoods')
+  //     }
+  //   } catch (err) {
+  //     console.warn(err.code)
+  //     console.warn(err.message)
+  //     console.warn(err.stack)
+  //   }
+  // }
 }
