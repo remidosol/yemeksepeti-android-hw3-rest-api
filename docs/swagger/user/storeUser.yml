@@ -3,11 +3,10 @@
    tags:
      - users
    description: Store a user
-   parameters:
-     - name: schema of user
-       in: body
-       required: true
-       schema:
+   requestBody:
+    content:
+      'application/json':
+        schema:
          properties:
            email:
              type: string

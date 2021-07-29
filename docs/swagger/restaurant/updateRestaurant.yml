@@ -14,24 +14,24 @@
             type: number
             example: 3
             required: true
-     - name: schema of restaurant
-       in: body
-       required: true
-       schema:
-         properties:
-           name:
-             type: string
-             example: 'Burger King'
-             required: false
-           typeOfRestaurant:
-             type: string
-             example: 'Burger & Steak'
-             required: false
-           logoUrl:
-             type: string
-             format: uri
-             example: 'https://placeimg.com/500/500/people?95870'
-             required: false
+   requestBody:
+    content:
+      'application/json':
+        schema:
+          properties:
+            name:
+              type: string
+              example: 'Burger King'
+              required: false
+            typeOfRestaurant:
+              type: string
+              example: 'Burger & Steak'
+              required: false
+            logoUrl:
+              type: string
+              format: uri
+              example: 'https://placeimg.com/500/500/people?95870'
+              required: false
    produces:
      - application/json
    responses:

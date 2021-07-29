@@ -14,39 +14,39 @@
             type: number
             example: 5
             required: true
-     - name: schema of user
-       in: body
-       required: true
-       schema:
-         properties:
-           email:
-             type: string
-             format: email
-             example: 'serverigaram@gmail.com'
-             required: false
-           password:
-             type: string
-             format: password
-             example: 'any'
-             required: false
-           avatarUrl:
-             type: string
-             format: uri
-             example: 'https://placeimg.com/500/500/people?95870'
-             required: false
-           firstName:
-             type: string
-             example: 'John'
-             required: false
-           lastName:
-             type: string
-             example: 'Doe'
-             required: false
-           mobileNumber:
-             type: string
-             pattern: '^(\+\d{1,3}[- ]?)?\d{10}$'
-             example: '+905301176240'
-             required: false
+   requestBody:
+    content:
+      'application/json':
+        schema:
+          properties:
+            email:
+              type: string
+              format: email
+              example: 'serverigaram@gmail.com'
+              required: false
+            password:
+              type: string
+              format: password
+              example: 'any'
+              required: false
+            avatarUrl:
+              type: string
+              format: uri
+              example: 'https://placeimg.com/500/500/people?95870'
+              required: false
+            firstName:
+              type: string
+              example: 'John'
+              required: false
+            lastName:
+              type: string
+              example: 'Doe'
+              required: false
+            mobileNumber:
+              type: string
+              pattern: '^(\+\d{1,3}[- ]?)?\d{10}$'
+              example: '+905301176240'
+              required: false
    produces:
      - application/json
    responses:

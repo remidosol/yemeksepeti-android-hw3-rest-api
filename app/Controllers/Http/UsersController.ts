@@ -75,6 +75,7 @@ export default class UsersController {
       })
 
       await user.save()
+      await user.load('profile')
       await user.refresh()
 
       return response.status(200).json({

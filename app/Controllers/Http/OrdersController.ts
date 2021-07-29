@@ -74,6 +74,7 @@ export default class OrdersController {
       })
 
       await order.save()
+      await order.load('user', (query) => query.preload('profile'))
       await order.refresh()
 
       return response.status(200).json({

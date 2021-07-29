@@ -14,31 +14,31 @@
             type: number
             example: 5
             required: true
-     - name: schema of order
-       in: body
-       required: true
-       schema:
-         properties:
-           restaurantId:
-             type: number
-             example: 5
-             required: false
-           userId:
-             type: number
-             example: 3
-             required: false
-           orderNote:
-             type: string
-             example: 'Please bring the order hot'
-             required: false
-           orderPaymentMethod:
-             type: string
-             enum:
-               - CREDIT_CARD
-               - CASH
-               - COUPON
-             example: CREDIT_CARD
-             required: false
+   requestBody:
+    content:
+      'application/json':
+        schema:
+          properties:
+            restaurantId:
+              type: number
+              example: 5
+              required: false
+            userId:
+              type: number
+              example: 3
+              required: false
+            orderNote:
+              type: string
+              example: 'Please bring the order hot'
+              required: false
+            orderPaymentMethod:
+              type: string
+              enum:
+                - CREDIT_CARD
+                - CASH
+                - COUPON
+              example: CREDIT_CARD
+              required: false
    produces:
      - application/json
    responses:

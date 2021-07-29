@@ -14,24 +14,24 @@
             type: number
             example: 5
             required: true
-     - name: schema of food
-       in: body
-       required: true
-       schema:
-         properties:
-           name:
-             type: string
-             example: 'Burger'
-             required: false
-           price:
-             type: number
-             example: 25.5
-             required: false
-           imageUrl:
-             type: string
-             format: uri
-             example: 'https://placeimg.com/500/500/people?95870'
-             required: false
+   requestBody:
+    content:
+      'application/json':
+        schema:
+          properties:
+            name:
+              type: string
+              example: 'Burger'
+              required: false
+            price:
+              type: number
+              example: 25.5
+              required: false
+            imageUrl:
+              type: string
+              format: uri
+              example: 'https://placeimg.com/500/500/people?95870'
+              required: false
    produces:
      - application/json
    responses:

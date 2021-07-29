@@ -3,25 +3,24 @@
    tags:
      - restaurants
    description: Store a restaurant
-   parameters:
-     - name: schema of restaurant
-       in: body
-       required: true
-       schema:
-         properties:
-           name:
-             type: string
-             example: 'Burger King'
-             required: true
-           typeOfRestaurant:
-             type: string
-             example: 'Burger & Steak'
-             required: true
-           logoUrl:
-             type: string
-             format: uri
-             example: 'https://placeimg.com/500/500/people?95870'
-             required: true
+   requestBody:
+    content:
+      'application/json':
+        schema:
+          properties:
+            name:
+              type: string
+              example: 'Burger King'
+              required: true
+            typeOfRestaurant:
+              type: string
+              example: 'Burger & Steak'
+              required: true
+            logoUrl:
+              type: string
+              format: uri
+              example: 'https://placeimg.com/500/500/people?95870'
+              required: true
    produces:
      - application/json
    responses:
