@@ -8,7 +8,8 @@
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
-    "seed": "node ace db:seed --files=database\\seeders\\Food,database\\seeders\\Restaurant,database\\seeders\\User"
+    "seed": "node ace db:seed --files=database\\seeders\\Food,database\\seeders\\Restaurant,database\\seeders\\User",
+    "build-seed": "node ace db:seed --files=build/database/seeders/Food,build/database/seeders/Restaurant,build/database/seeders/User"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.0.0",
