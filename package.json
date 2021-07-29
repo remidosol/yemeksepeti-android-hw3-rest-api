@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node ace build --production --ignore-ts-errors",
+		"postbuild": "node ace swagger:generate && cp -a docs/ build/docs",
     "start": "node build/server.js",
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
