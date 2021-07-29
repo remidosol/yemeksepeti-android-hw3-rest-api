@@ -56,7 +56,7 @@ export default class UsersController {
 
   /**
    *
-   * Store a User
+   * Store an User
    *
    * @param ctx
    */
@@ -90,6 +90,89 @@ export default class UsersController {
       })
     }
   }
+
+  /**
+   *
+   * Store an user address.
+   *
+   * @param ctx
+   */
+  public async storeUserAddress({ request, response, params }: HttpContextContract) {
+    try {
+      const userId = params.user_id
+      const addressData = request.only([
+        'country',
+        'city',
+        'district',
+        'neighborhood',
+        'street',
+        'latitude',
+        'longitude',
+      ])
+
+      const user = await User.findByOrFail('id', userId)
+
+      await user.related('userAddresses').create({
+        ...addressData,
+      })
+
+      await user.save()
+      await user.load('profile')
+      await user.load('userAddresses')
+      await user.refresh()
+
+      return response.status(200).json({
+        message: 'Address has been added to user.',
+        user: user.toJSON(),
+      })
+    } catch (error) {
+      console.warn(error.message)
+      console.warn(error.stack)
+      return response.status(500).json({
+        message: 'Something went wrong.',
+      })
+    }
+  }
+
+  /**
+   *
+   * Give an order.
+   *
+   * @param ctx
+   */
+  // public async giveAnOrder({ request, response }: HttpContextContract) {
+  //   try {
+  //     const receivedData = request.only([
+  //       'userId',
+  //       'orderNote',
+  //       'orderPaymentMethod',
+  //       'restaurantId',
+  //     ])
+
+  //     const user = await User.findByOrFail('id', receivedData.userId)
+
+  //     await user.related('orders').create({
+  //       ...receivedData,
+  //     })
+
+  //     await user.save()
+  //     await user.load('profile')
+  //     await user.load('userAddresses')
+  //     await user.load('orders')
+  //     await user.refresh()
+
+  //     return response.status(200).json({
+  //       message: 'Address has been added to user.',
+  //       user: user.toJSON(),
+  //     })
+  //   } catch (error) {
+  //     console.warn(error.message)
+  //     console.warn(error.stack)
+  //     return response.status(500).json({
+  //       message: 'Something went wrong.',
+  //     })
+  //   }
+  // }
 
   /**
    *

@@ -87,6 +87,80 @@ export default class RestaurantsController {
 
   /**
    *
+   * Store a restaurant address.
+   *
+   * @param ctx
+   */
+  public async storeRestaurantAddress({ request, response, params }: HttpContextContract) {
+    try {
+      const restaurantId = params.restaurant_id
+      const addressData = request.only([
+        'country',
+        'city',
+        'district',
+        'neighborhood',
+        'street',
+        'latitude',
+        'longitude',
+      ])
+
+      const restaurant = await Restaurant.findByOrFail('id', restaurantId)
+
+      await restaurant.related('restaurantAddress').create({
+        ...addressData,
+      })
+
+      await restaurant.save()
+      await restaurant.load('restaurantAddress')
+      await restaurant.refresh()
+
+      return response.status(200).json({
+        message: 'Address has been added to restaurant.',
+        user: restaurant.toJSON(),
+      })
+    } catch (error) {
+      console.warn(error.message)
+      console.warn(error.stack)
+      return response.status(500).json({
+        message: 'Something went wrong.',
+      })
+    }
+  }
+
+  /**
+   *
+   * Add food to a restaurant.
+   *
+   * @param ctx
+   */
+  public async addFoodToRestaurant({ request, response }: HttpContextContract) {
+    try {
+      const receivedData = request.only(['restaurantId', 'foodId'])
+
+      const restaurant = await Restaurant.findByOrFail('id', receivedData.restaurantId)
+
+      await restaurant.related('restaurantFoods').attach([receivedData.foodId])
+
+      await restaurant.save()
+      await restaurant.load('restaurantAddress')
+      await restaurant.load('restaurantFoods')
+      await restaurant.refresh()
+
+      return response.status(200).json({
+        message: 'Food has been added to restaurant.',
+        user: restaurant.toJSON(),
+      })
+    } catch (error) {
+      console.warn(error.message)
+      console.warn(error.stack)
+      return response.status(500).json({
+        message: 'Something went wrong.',
+      })
+    }
+  }
+
+  /**
+   *
    * Update a Restaurant
    *
    * @param ctx

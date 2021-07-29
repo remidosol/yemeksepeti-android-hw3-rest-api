@@ -1,0 +1,68 @@
+/restaurants/food/:
+ post:
+   tags:
+     - restaurants
+   description: Add address to restaurant
+   requestBody:
+    content:
+      'application/json':
+        schema:
+          properties:
+            restaurantId:
+              type: number
+              example: 2
+              required: true
+            foodId:
+              type: number
+              example: 5
+              required: true
+   produces:
+     - application/json
+   responses:
+     200:
+      description: Address has been added to restaurant.
+      example:
+        message: Address has been added to restaurant.
+        restaurant:
+          name: 'Burger King'
+          typeOfRestaurant: 'Burger & Steak'
+          logoUrl: 'https://placeimg.com/500/500/people?95870'
+          restaurantFoods:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Burger'
+                  required: true
+                price:
+                  type: number
+                  example: 25.5
+                  required: true
+                imageUrl:
+                  type: string
+                  format: uri
+                  example: 'https://placeimg.com/500/500/people?95870'
+                  required: true
+          restaurantAddress:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: number
+                country:
+                  type: string
+                city:
+                  type: string
+                district:
+                  type: string
+                neighborhood:
+                  type: string
+                street:
+                  type: string
+                latitude:
+                  type: number
+                longitude:
+                  type: number

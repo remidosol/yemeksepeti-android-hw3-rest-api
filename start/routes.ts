@@ -28,6 +28,8 @@ Route.get('/', async ({ response }: HttpContextContract) => {
 Route.group(() => {
   Route.get('/', 'RestaurantsController.index')
   Route.get('/:restaurant_id', 'RestaurantsController.find')
+  Route.post('/address/:restaurant_id', 'RestaurantsController.storeRestaurantAddress')
+  Route.post('/food', 'RestaurantsController.addFoodToRestaurant')
   Route.post('/store', 'RestaurantsController.store')
   Route.post('/update/:restaurant_id', 'RestaurantsController.update')
   Route.delete('/delete/:restaurant_id', 'RestaurantsController.delete')
@@ -52,6 +54,8 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/', 'UsersController.index')
   Route.get('/:user_id', 'UsersController.find')
+  Route.post('/address/:user_id', 'UsersController.storeUserAddress')
+  // Route.post('/order', 'UsersController.giveAnOrder')
   Route.post('/store', 'UsersController.store')
   Route.post('/update/:user_id', 'UsersController.update')
   Route.delete('/delete/:user_id', 'UsersController.delete')
