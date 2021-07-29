@@ -22,7 +22,7 @@ import Route from '@ioc:Adonis/Core/Route'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 Route.get('/', async function ({ response }: HttpContextContract) {
-  return 'Hello World'
+  return response.redirect('/docs')
 })
 
 Route.group(() => {
