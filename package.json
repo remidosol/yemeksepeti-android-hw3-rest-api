@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node ace build --ignore-ts-errors",
+    "build": "node ace build -prod --ignore-ts-errors",
     "start": "node server.js",
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
@@ -38,6 +38,6 @@
   },
   "engines": {
     "node": "14.17.1",
-	 "npm": "6.14.13"
+	  "npm": "6.14.13"
   }
 }
