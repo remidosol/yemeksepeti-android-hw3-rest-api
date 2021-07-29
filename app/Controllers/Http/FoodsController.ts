@@ -66,6 +66,9 @@ export default class FoodsController {
         ...receivedData,
       })
 
+      await food.save()
+      await food.refresh()
+
       return response.status(200).json({
         message: 'Food has been created.',
         food: food.toJSON(),

@@ -74,6 +74,9 @@ export default class UsersController {
         ...profileData,
       })
 
+      await user.save()
+      await user.refresh()
+
       return response.status(200).json({
         message: 'User and its profile has been created.',
         user: user.toJSON(),

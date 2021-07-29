@@ -73,6 +73,9 @@ export default class OrdersController {
         ...receivedData,
       })
 
+      await order.save()
+      await order.refresh()
+
       return response.status(200).json({
         message: 'Order has been created.',
         order: order.toJSON(),

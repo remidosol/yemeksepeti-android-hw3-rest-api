@@ -69,6 +69,9 @@ export default class RestaurantsController {
         ...receivedData,
       })
 
+      await restaurant.save()
+      await restaurant.refresh()
+
       return response.status(200).json({
         message: 'Restaurant has been created.',
         restaurant: restaurant.toJSON(),
