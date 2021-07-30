@@ -23,15 +23,15 @@ export default class Address extends BaseModel {
   public street: string
 
   @column({ serializeAs: 'latitude' })
-  public latitude: number
+  public latitude: number | undefined
 
   @column({ serializeAs: 'longitude' })
-  public longitude: number
+  public longitude: number | undefined
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime
 
   @manyToMany(() => User, {

@@ -1,14 +1,7 @@
 import { DateTime } from 'luxon'
 import Food from 'App/Models/Food'
 import Address from 'App/Models/Address'
-import {
-  BaseModel,
-  column,
-  manyToMany,
-  ManyToMany,
-  afterFetch,
-  afterFind,
-} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm'
 
 /**
  *  @swagger
@@ -40,10 +33,10 @@ export default class Restaurant extends BaseModel {
   @column({ serializeAs: 'logoUrl' })
   public logoUrl: string
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime
 
   @manyToMany(() => Food, {

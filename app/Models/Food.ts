@@ -34,10 +34,10 @@ export default class Food extends BaseModel {
   @column({ serializeAs: 'imageUrl' })
   public imageUrl: string
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime
 
   @manyToMany(() => Order, {

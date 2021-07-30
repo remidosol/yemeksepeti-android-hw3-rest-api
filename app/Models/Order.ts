@@ -9,9 +9,8 @@ import {
   BelongsTo,
   manyToMany,
   ManyToMany,
-  afterFind,
-  afterFetch,
 } from '@ioc:Adonis/Lucid/Orm'
+import moment from 'moment'
 
 export enum PaymentMethods {
   CREDIT_CARD = 'CREDIT_CARD',
@@ -61,10 +60,23 @@ export default class Order extends BaseModel {
   @column({ serializeAs: 'orderPaymentMethod' })
   public orderPaymentMethod: PaymentMethods
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({
+    autoCreate: true,
+    consume: (value: Date) => {
+      moment.locale('en')
+      return moment(value).fromNow()
+    },
+  })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({
+    autoCreate: true,
+    autoUpdate: true,
+    consume: (value: Date) => {
+      moment.locale('en')
+      return moment(value).fromNow()
+    },
+  })
   public updatedAt: DateTime
 
   @belongsTo(() => User, {
