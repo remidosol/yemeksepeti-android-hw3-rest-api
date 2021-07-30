@@ -21,7 +21,8 @@ export default class OrdersController {
       const ordersJSON = JSON.parse(JSON.stringify(orders))
 
       return response.status(200).json({
-        orders: ordersJSON,
+        message: 'Orders have been fetched.',
+        data: ordersJSON,
       })
     } catch (error) {
       console.warn(error.message)
@@ -38,7 +39,7 @@ export default class OrdersController {
    *
    * @param ctx
    */
-  public async find({ request, response, params }: HttpContextContract) {
+  public async find({ response, params }: HttpContextContract) {
     try {
       const orderId = params.order_id
 
@@ -49,7 +50,8 @@ export default class OrdersController {
       await order.load('user')
 
       return response.status(200).json({
-        order: order.toJSON(),
+        message: 'Order has been found.',
+        data: order.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -85,7 +87,7 @@ export default class OrdersController {
 
       return response.status(200).json({
         message: 'Order has been created.',
-        order: order.toJSON(),
+        data: order.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -125,7 +127,7 @@ export default class OrdersController {
 
       return response.status(200).json({
         message: 'Order has been updated.',
-        order: order.toJSON(),
+        data: order.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -142,7 +144,7 @@ export default class OrdersController {
    *
    * @param ctx
    */
-  public async destroy({ request, response, params }: HttpContextContract) {
+  public async destroy({ response, params }: HttpContextContract) {
     try {
       const orderId = params.order_id
 
@@ -153,6 +155,7 @@ export default class OrdersController {
 
       return response.status(200).json({
         message: 'Order has been deleted',
+        data: {},
       })
     } catch (error) {
       console.warn(error.message)

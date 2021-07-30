@@ -20,7 +20,8 @@ export default class UsersController {
       const usersJSON = JSON.parse(JSON.stringify(users))
 
       return response.status(200).json({
-        users: usersJSON,
+        message: 'Users have been fetched.',
+        data: usersJSON,
       })
     } catch (error) {
       console.warn(error.message)
@@ -48,7 +49,8 @@ export default class UsersController {
       await user.load('userAddresses')
 
       return response.status(200).json({
-        user: user.toJSON(),
+        message: 'User has been found.',
+        data: user.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -85,7 +87,7 @@ export default class UsersController {
 
       return response.status(200).json({
         message: 'User and its profile has been created.',
-        user: user.toJSON(),
+        data: user.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -128,7 +130,7 @@ export default class UsersController {
 
       return response.status(200).json({
         message: 'Address has been added to user.',
-        user: user.toJSON(),
+        data: user.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -209,7 +211,7 @@ export default class UsersController {
 
       return response.status(200).json({
         message: 'User has been updated.',
-        user: user.toJSON(),
+        data: user.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -239,6 +241,7 @@ export default class UsersController {
 
       return response.status(200).json({
         message: 'User has been deleted',
+        data: {},
       })
     } catch (error) {
       console.warn(error.message)

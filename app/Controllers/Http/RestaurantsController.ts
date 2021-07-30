@@ -20,7 +20,8 @@ export default class RestaurantsController {
       const restaurantsJSON = JSON.parse(JSON.stringify(restaurants))
 
       return response.status(200).json({
-        restaurants: restaurantsJSON,
+        message: 'Restaurants have been fetched.',
+        data: restaurantsJSON,
       })
     } catch (error) {
       console.warn(error.message)
@@ -47,7 +48,8 @@ export default class RestaurantsController {
       await restaurant.load('restaurantFoods')
 
       return response.status(200).json({
-        restaurant: restaurant.toJSON(),
+        message: 'Restaurant has been found.',
+        data: restaurant.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -77,7 +79,7 @@ export default class RestaurantsController {
 
       return response.status(200).json({
         message: 'Restaurant has been created.',
-        restaurant: restaurant.toJSON(),
+        data: restaurant.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -119,7 +121,7 @@ export default class RestaurantsController {
 
       return response.status(200).json({
         message: 'Address has been added to restaurant.',
-        user: restaurant.toJSON(),
+        data: restaurant.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -151,7 +153,7 @@ export default class RestaurantsController {
 
       return response.status(200).json({
         message: 'Food has been added to restaurant.',
-        user: restaurant.toJSON(),
+        data: restaurant.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -185,7 +187,7 @@ export default class RestaurantsController {
 
       return response.status(200).json({
         message: 'Restaurant has been updated.',
-        restaurant: restaurant.toJSON(),
+        data: restaurant.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -214,6 +216,7 @@ export default class RestaurantsController {
 
       return response.status(200).json({
         message: 'Restaurant has been deleted',
+        data: {},
       })
     } catch (error) {
       console.warn(error.message)

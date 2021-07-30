@@ -16,7 +16,8 @@ export default class FoodsController {
       const foodsJSON = JSON.parse(JSON.stringify(foods))
 
       return response.status(200).json({
-        foods: foodsJSON,
+        message: 'Foods have been fetched.',
+        data: foodsJSON,
       })
     } catch (error) {
       console.warn(error.message)
@@ -42,7 +43,8 @@ export default class FoodsController {
       await food.load('foodRestaurants')
 
       return response.status(200).json({
-        food: food.toJSON(),
+        message: 'Food has been found.',
+        data: food.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -72,7 +74,7 @@ export default class FoodsController {
 
       return response.status(200).json({
         message: 'Food has been created.',
-        food: food.toJSON(),
+        data: food.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -106,7 +108,7 @@ export default class FoodsController {
 
       return response.status(200).json({
         message: 'Food has been updated.',
-        food: food.toJSON(),
+        data: food.toJSON(),
       })
     } catch (error) {
       console.warn(error.message)
@@ -133,6 +135,7 @@ export default class FoodsController {
 
       return response.status(200).json({
         message: 'Food has been deleted',
+        data: {},
       })
     } catch (error) {
       console.warn(error.message)

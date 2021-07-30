@@ -32,7 +32,7 @@ Route.group(() => {
   Route.post('/food', 'RestaurantsController.addFoodToRestaurant')
   Route.post('/store', 'RestaurantsController.store')
   Route.post('/update/:restaurant_id', 'RestaurantsController.update')
-  Route.delete('/delete/:restaurant_id', 'RestaurantsController.delete')
+  Route.delete('/delete/:restaurant_id', 'RestaurantsController.destroy')
 }).prefix('/restaurants')
 
 Route.group(() => {
@@ -40,7 +40,7 @@ Route.group(() => {
   Route.get('/:food_id', 'FoodsController.find')
   Route.post('/store', 'FoodsController.store')
   Route.post('/update/:food_id', 'FoodsController.update')
-  Route.delete('/delete/:food_id', 'FoodsController.delete')
+  Route.delete('/delete/:food_id', 'FoodsController.destroy')
 }).prefix('/foods')
 
 Route.group(() => {
@@ -48,15 +48,14 @@ Route.group(() => {
   Route.get('/:order_id', 'OrdersController.find')
   Route.post('/store', 'OrdersController.store')
   Route.post('/update/:order_id', 'OrdersController.update')
-  Route.delete('/delete/:order_id', 'OrdersController.delete')
+  Route.delete('/delete/:order_id', 'OrdersController.destroy')
 }).prefix('/orders')
 
 Route.group(() => {
   Route.get('/', 'UsersController.index')
   Route.get('/:user_id', 'UsersController.find')
   Route.post('/address/:user_id', 'UsersController.storeUserAddress')
-  // Route.post('/order', 'UsersController.giveAnOrder')
   Route.post('/store', 'UsersController.store')
   Route.post('/update/:user_id', 'UsersController.update')
-  Route.delete('/delete/:user_id', 'UsersController.delete')
+  Route.delete('/delete/:user_id', 'UsersController.destroy')
 }).prefix('/users')
