@@ -8,9 +8,15 @@ export default class OrdersController {
    *
    * @param ctx
    */
-  public async index({ response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     try {
-      const orders = await Order.query().preload('orderFoods').preload('restaurant').preload('user')
+      let page = request.input('page')
+
+      const orders = await Order.query()
+        .preload('orderFoods')
+        .preload('restaurant')
+        .preload('user')
+        .paginate(page, 10)
 
       const ordersJSON = JSON.parse(JSON.stringify(orders))
 

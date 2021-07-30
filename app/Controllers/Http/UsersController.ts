@@ -8,9 +8,14 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async index({ response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     try {
-      const users = await User.query().preload('profile').preload('userAddresses').preload('orders')
+      let page = request.input('page')
+      const users = await User.query()
+        .preload('profile')
+        .preload('userAddresses')
+        .preload('orders')
+        .paginate(page, 10)
 
       const usersJSON = JSON.parse(JSON.stringify(users))
 

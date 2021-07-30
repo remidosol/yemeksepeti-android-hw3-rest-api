@@ -4,6 +4,12 @@
    tags:
      - restaurants
    description: Get all restaurants
+   parameters:
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: The number of page (every page fetch 10 items)
    produces:
      - application/json
    responses:

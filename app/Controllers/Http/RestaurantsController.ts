@@ -8,11 +8,14 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async index({ response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     try {
+      let page = request.input('page')
+
       const restaurants = await Restaurant.query()
         .preload('restaurantAddress')
         .preload('restaurantFoods')
+        .paginate(page, 10)
 
       const restaurantsJSON = JSON.parse(JSON.stringify(restaurants))
 
