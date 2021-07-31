@@ -2,7 +2,7 @@
  post:
    tags:
      - restaurants
-   description: Add address to restaurant
+   description: Add food to restaurant
    requestBody:
     content:
       'application/json':
