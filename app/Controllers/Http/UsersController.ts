@@ -96,9 +96,11 @@ export default class UsersController {
           message: 'Please login.',
         })
 
-      await auth.user!.load('orders')
+      const user = await User.findByOrFail('email', auth.user!.email)
 
-      const userJSON = auth.user!.toJSON()
+      await user.load('orders')
+
+      const userJSON = user!.toJSON()
 
       return response.status(200).json({
         message: 'Orders of user that is logged in has been fetched.',
