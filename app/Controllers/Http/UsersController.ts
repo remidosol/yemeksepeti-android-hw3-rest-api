@@ -91,6 +91,11 @@ export default class UsersController {
    */
   public async getOrders({ response, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
+
       await auth.user!.load('orders')
 
       const userJSON = auth.user!.toJSON()
@@ -115,7 +120,7 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async store({ request, response }: HttpContextContract) {
+  public async store({ request, response, auth }: HttpContextContract) {
     const storeSchema = schema.create({
       email: schema.string(
         {
@@ -129,6 +134,10 @@ export default class UsersController {
     })
 
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
       const validatedData = await request.validate({
         schema: storeSchema,
         data: request.only(['email', 'password']),
@@ -190,8 +199,13 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async storeUserAddress({ request, response, params }: HttpContextContract) {
+  public async storeUserAddress({ request, response, params, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
+
       const userId = params.user_id
       const addressData = request.only([
         'country',
@@ -275,8 +289,12 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async update({ request, response, params }: HttpContextContract) {
+  public async update({ request, response, params, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
       const userId = params.user_id
       const userData = request.only(['email', 'password'])
       const profileData = request.only(['firstName', 'lastName', 'mobileNumber'])
@@ -339,8 +357,12 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async destroy({ response, params }: HttpContextContract) {
+  public async destroy({ response, params, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
       const userId = params.user_id
 
       const user = await User.findByOrFail('id', userId)

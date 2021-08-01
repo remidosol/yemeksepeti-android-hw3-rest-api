@@ -87,8 +87,12 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async store({ request, response }: HttpContextContract) {
+  public async store({ request, response, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
       const receivedData = request.only(['name', 'typeOfRestaurant'])
 
       const logoFile = request.file('logoUrl')
@@ -133,8 +137,12 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async storeRestaurantAddress({ request, response, params }: HttpContextContract) {
+  public async storeRestaurantAddress({ request, response, params, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
       const restaurantId = params.restaurant_id
       const addressData = request.only([
         'country',
@@ -176,8 +184,12 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async addFoodToRestaurant({ request, response }: HttpContextContract) {
+  public async addFoodToRestaurant({ request, response, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
       const receivedData = request.only(['restaurantId', 'foodId'])
 
       const restaurant = await Restaurant.findByOrFail('id', receivedData.restaurantId)
@@ -209,8 +221,12 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async update({ request, response, params }: HttpContextContract) {
+  public async update({ request, response, params, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
       const restaurantId = params.restaurant_id
 
       const receivedData = request.only(['name', 'typeOfRestaurant'])
@@ -252,8 +268,12 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async destroy({ response, params }: HttpContextContract) {
+  public async destroy({ response, params, auth }: HttpContextContract) {
     try {
+      if (await auth.check())
+        return response.status(403).json({
+          message: 'Please login.',
+        })
       const restaurantId = params.restaurant_id
 
       const restaurant = await Restaurant.findByOrFail('id', restaurantId)
