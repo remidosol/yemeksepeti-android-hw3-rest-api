@@ -25,6 +25,7 @@
               required: true
             password_confirmation:
               type: string
+              format: password
               example: 'remidosol4434'
               description: 'Password confirmation'
               required: true
