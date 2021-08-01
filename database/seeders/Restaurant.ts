@@ -34,7 +34,7 @@ export default class RestaurantSeeder extends BaseSeeder {
         let randFoodCount = faker.datatype.number({ min: 30, max: 50, precision: 1 })
 
         for (let j = 0; j < randFoodCount; j++) {
-          let randFoodId = faker.datatype.number({ min: 1, max: 200, precision: 1 })
+          let randFoodId = faker.datatype.number({ min: 1, max: 50, precision: 1 })
           await restaurant.related('restaurantFoods').attach([randFoodId])
         }
 
