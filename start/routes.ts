@@ -25,6 +25,7 @@ Route.get('/', async ({ response }: HttpContextContract) => {
   return response.redirect('/docs')
 })
 
+Route.post('/register', 'AuthController.register')
 Route.post('/login', 'AuthController.login')
 Route.get('/logout', 'AuthController.logout').middleware(['auth'])
 
