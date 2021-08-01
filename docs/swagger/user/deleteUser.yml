@@ -1,21 +1,23 @@
 /users/delete/{user_id}:
  delete:
-   tags:
-     - users
-   description: Delete a user
-   parameters:
-     - name: user_id
-       in: path
-       required: true
-       schema:
+  security:
+    - bearerAuth: []
+  tags:
+    - users
+  description: Delete a user
+  parameters:
+    - name: user_id
+      in: path
+      required: true
+      schema:
         type: number
         properties:
           user_id:
             type: number
             example: 5
             required: true
-   produces:
-     - application/json
-   responses:
-     200:
-       description: User has been deleted.
+  produces:
+    - application/json
+  responses:
+    200:
+      description: User has been deleted.

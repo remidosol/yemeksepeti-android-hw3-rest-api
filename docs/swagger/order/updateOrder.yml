@@ -1,23 +1,26 @@
 /orders/update/{order_id}:
  post:
-   tags:
-     - orders
-   description: Update a order
-   parameters:
-     - name: order_id
-       in: path
-       required: true
-       schema:
+  security:
+    - bearerAuth: []
+  tags:
+    - orders
+  description: Update a order
+  parameters:
+    - name: order_id
+      in: path
+      required: true
+      schema:
         type: number
         properties:
           order_id:
             type: number
             example: 5
             required: true
-   requestBody:
+  requestBody:
     content:
       'application/json':
         schema:
+          type: object
           properties:
             restaurantId:
               type: number
@@ -39,15 +42,8 @@
                 - COUPON
               example: CREDIT_CARD
               required: false
-   produces:
-     - application/json
-   responses:
-     200:
+  produces:
+    - application/json
+  responses:
+    200:
       description: Order has been updated.
-      example:
-        message: Order has been updated.
-        order:
-          restaurantId: 3
-          userId: 5
-          orderNote: 'Please bring the order hot'
-          orderPaymentMethod: COUPON

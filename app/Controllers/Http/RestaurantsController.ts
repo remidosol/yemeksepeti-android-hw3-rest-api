@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Restaurant from 'App/Models/Restaurant'
+import S3 from '@ioc:Services/S3'
 
 export default class RestaurantsController {
   /**
@@ -19,6 +20,15 @@ export default class RestaurantsController {
 
       const restaurantsJSON = JSON.parse(JSON.stringify(restaurants))
 
+      for (let restaurant of restaurantsJSON) {
+        if (
+          !restaurant.logoUrl.startsWith('http://') ||
+          !restaurant.logoUrl.startsWith('https://')
+        ) {
+          restaurant.logoUrl = 'http://' + restaurant.logoUrl
+        }
+      }
+
       return response.status(200).json({
         message: 'Restaurants have been fetched.',
         data: restaurantsJSON,
@@ -28,6 +38,7 @@ export default class RestaurantsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -47,6 +58,15 @@ export default class RestaurantsController {
       await restaurant.load('restaurantAddress')
       await restaurant.load('restaurantFoods')
 
+      const restaurantJSON = restaurant.toJSON()
+
+      if (
+        !restaurantJSON.logoUrl.startsWith('http://') ||
+        !restaurantJSON.logoUrl.startsWith('https://')
+      ) {
+        restaurantJSON.logoUrl = 'http://' + restaurantJSON.logoUrl
+      }
+
       return response.status(200).json({
         message: 'Restaurant has been found.',
         data: restaurant.toJSON(),
@@ -56,6 +76,7 @@ export default class RestaurantsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -68,24 +89,40 @@ export default class RestaurantsController {
    */
   public async store({ request, response }: HttpContextContract) {
     try {
-      const receivedData = request.only(['name', 'logoUrl', 'typeOfRestaurant'])
+      const receivedData = request.only(['name', 'typeOfRestaurant'])
+
+      const logoFile = request.file('logoUrl')
+
+      const logoUrl = await S3.uploadToBucket(logoFile!, 'restaurants')
 
       const restaurant = await Restaurant.create({
-        ...receivedData,
+        name: receivedData.name,
+        typeOfRestaurant: receivedData.typeOfRestaurant,
+        logoUrl: logoUrl?.url,
       })
 
       await restaurant.save()
       await restaurant.refresh()
 
+      const restaurantJSON = restaurant.toJSON()
+
+      if (
+        !restaurantJSON.logoUrl.startsWith('http://') ||
+        !restaurantJSON.logoUrl.startsWith('https://')
+      ) {
+        restaurantJSON.logoUrl = 'http://' + restaurantJSON.logoUrl
+      }
+
       return response.status(200).json({
         message: 'Restaurant has been created.',
-        data: restaurant.toJSON(),
+        data: restaurantJSON,
       })
     } catch (error) {
       console.warn(error.message)
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -128,6 +165,7 @@ export default class RestaurantsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -160,6 +198,7 @@ export default class RestaurantsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -174,13 +213,21 @@ export default class RestaurantsController {
     try {
       const restaurantId = params.restaurant_id
 
-      const receivedData = request.only(['name', 'logoUrl', 'typeOfRestaurant'])
+      const receivedData = request.only(['name', 'typeOfRestaurant'])
 
       const restaurant = await Restaurant.findByOrFail('id', restaurantId)
 
-      restaurant.name = receivedData.name
+      const logoFile = request.file('logoUrl')
+      if (logoFile) {
+        await S3.deleteFromBucket('restaurants', restaurant.logoUrl.split('/')[2])
+        const logoUrl = await S3.uploadToBucket(logoFile!, 'restaurants')
+        restaurant.logoUrl = logoUrl?.url ? logoUrl.url : restaurant.logoUrl
+      }
+
+      restaurant.name = receivedData.name ? receivedData.name : restaurant.name
       restaurant.typeOfRestaurant = receivedData.typeOfRestaurant
-      restaurant.logoUrl = receivedData.logoUrl
+        ? receivedData.typeOfRestaurant
+        : restaurant.typeOfRestaurant
 
       await restaurant.save()
       await restaurant.refresh()
@@ -194,6 +241,7 @@ export default class RestaurantsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -212,6 +260,8 @@ export default class RestaurantsController {
 
       await restaurant.related('restaurantAddress').query().delete()
       await restaurant.related('restaurantFoods').query().delete()
+
+      await S3.deleteFromBucket('restaurants', restaurant.logoUrl.split('/')[2])
       await restaurant.delete()
 
       return response.status(200).json({
@@ -223,6 +273,7 @@ export default class RestaurantsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }

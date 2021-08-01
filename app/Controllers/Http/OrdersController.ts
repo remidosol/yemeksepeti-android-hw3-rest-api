@@ -29,6 +29,7 @@ export default class OrdersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -58,6 +59,7 @@ export default class OrdersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -94,6 +96,7 @@ export default class OrdersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -134,6 +137,7 @@ export default class OrdersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -162,6 +166,7 @@ export default class OrdersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }

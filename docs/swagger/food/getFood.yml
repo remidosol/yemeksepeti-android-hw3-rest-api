@@ -1,16 +1,16 @@
 /foods:
  get:
-   tags:
-     - foods
-   description: Get all foods
-   parameters:
+  tags:
+    - foods
+  description: Get all foods
+  parameters:
     - in: query
       name: page
       schema:
         type: integer
       description: The number of page (every page fetch 10 items)
-   produces:
-     - application/json
-   responses:
-     200:
-       description: A list of foods
+  produces:
+    - application/json
+  responses:
+    200:
+      description: A list of foods

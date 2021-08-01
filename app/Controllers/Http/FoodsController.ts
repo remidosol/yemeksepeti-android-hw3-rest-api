@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Food from 'App/Models/Food'
+import S3 from '@ioc:Services/S3'
 
 export default class FoodsController {
   /**
@@ -15,6 +16,12 @@ export default class FoodsController {
 
       const foodsJSON = JSON.parse(JSON.stringify(foods))
 
+      for (let food of foodsJSON) {
+        if (!food.imageUrl.startsWith('http://') || !food.imageUrl.startsWith('https://')) {
+          food.imageUrl = 'http://' + food.imageUrl
+        }
+      }
+
       return response.status(200).json({
         message: 'Foods have been fetched.',
         data: foodsJSON,
@@ -24,6 +31,7 @@ export default class FoodsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -42,15 +50,22 @@ export default class FoodsController {
 
       await food.load('foodRestaurants')
 
+      const foodJSON = food.toJSON()
+
+      if (!foodJSON.imageUrl.startsWith('http://') || !foodJSON.imageUrl.startsWith('https://')) {
+        foodJSON.imageUrl = 'http://' + foodJSON.imageUrl
+      }
+
       return response.status(200).json({
         message: 'Food has been found.',
-        data: food.toJSON(),
+        data: foodJSON,
       })
     } catch (error) {
       console.warn(error.message)
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -63,24 +78,37 @@ export default class FoodsController {
    */
   public async store({ request, response }: HttpContextContract) {
     try {
-      const receivedData = request.only(['name', 'price', 'imageUrl'])
+      const receivedData = request.only(['name', 'price'])
+
+      const imageFile = request.file('imageUrl')
+
+      const imageUrl = await S3.uploadToBucket(imageFile!, 'foods')
 
       const food = await Food.create({
-        ...receivedData,
+        name: receivedData.name,
+        price: receivedData.price,
+        imageUrl: imageUrl?.url,
       })
 
       await food.save()
       await food.refresh()
 
+      const foodJSON = food.toJSON()
+
+      if (!foodJSON.imageUrl.startsWith('http://') || !foodJSON.imageUrl.startsWith('https://')) {
+        foodJSON.imageUrl = 'http://' + foodJSON.imageUrl
+      }
+
       return response.status(200).json({
         message: 'Food has been created.',
-        data: food.toJSON(),
+        data: foodJSON,
       })
     } catch (error) {
       console.warn(error.message)
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -95,13 +123,21 @@ export default class FoodsController {
     try {
       const foodId = params.food_id
 
-      const receivedData = request.only(['name', 'price', 'imageUrl'])
+      const receivedData = request.only(['name', 'price'])
 
       const food = await Food.findByOrFail('id', foodId)
 
-      food.name = receivedData.name
-      food.price = receivedData.price
-      food.imageUrl = receivedData.imageUrl
+      const imageFile = request.file('imageUrl')
+
+      if (imageFile) {
+        await S3.deleteFromBucket('foods', food.imageUrl.split('/')[2])
+
+        const imageUrl = await S3.uploadToBucket(imageFile!, 'foods')
+        food.imageUrl = imageUrl?.url ? imageUrl?.url : food.imageUrl
+      }
+
+      food.name = receivedData.name ? receivedData.name : food.name
+      food.price = receivedData.price ? receivedData.price : food.price
 
       await food.save()
       await food.refresh()
@@ -115,6 +151,7 @@ export default class FoodsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -131,6 +168,8 @@ export default class FoodsController {
 
       const food = await Food.findByOrFail('id', foodId)
 
+      await S3.deleteFromBucket('foods', food.imageUrl.split('/')[2])
+
       await food.delete()
 
       return response.status(200).json({
@@ -142,6 +181,7 @@ export default class FoodsController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }

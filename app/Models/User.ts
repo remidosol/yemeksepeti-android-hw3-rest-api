@@ -23,7 +23,7 @@ import {
  *      type: object
  *      properties:
  *        id:
- *          type: uint
+ *          type: number
  *        email:
  *          type: string
  *          format: email
@@ -42,6 +42,9 @@ export default class User extends BaseModel {
 
   @column({ serializeAs: null })
   public password: string
+
+  @column({ serializeAs: null })
+  public remember_me_token: string
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime

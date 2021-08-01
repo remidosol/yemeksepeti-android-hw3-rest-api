@@ -25,37 +25,42 @@ Route.get('/', async ({ response }: HttpContextContract) => {
   return response.redirect('/docs')
 })
 
+Route.post('/login', 'AuthController.login')
+Route.get('/logout', 'AuthController.logout').middleware(['auth'])
+
 Route.group(() => {
   Route.get('/', 'RestaurantsController.index')
   Route.get('/:restaurant_id', 'RestaurantsController.find')
-  Route.post('/address/:restaurant_id', 'RestaurantsController.storeRestaurantAddress')
-  Route.post('/food', 'RestaurantsController.addFoodToRestaurant')
-  Route.post('/store', 'RestaurantsController.store')
-  Route.post('/update/:restaurant_id', 'RestaurantsController.update')
-  Route.delete('/delete/:restaurant_id', 'RestaurantsController.destroy')
+  Route.post('/address/:restaurant_id', 'RestaurantsController.storeRestaurantAddress').middleware([
+    'auth',
+  ])
+  Route.post('/food', 'RestaurantsController.addFoodToRestaurant').middleware(['auth'])
+  Route.post('/store', 'RestaurantsController.store').middleware(['auth'])
+  Route.post('/update/:restaurant_id', 'RestaurantsController.update').middleware(['auth'])
+  Route.delete('/delete/:restaurant_id', 'RestaurantsController.destroy').middleware(['auth'])
 }).prefix('/restaurants')
 
 Route.group(() => {
   Route.get('/', 'FoodsController.index')
   Route.get('/:food_id', 'FoodsController.find')
-  Route.post('/store', 'FoodsController.store')
-  Route.post('/update/:food_id', 'FoodsController.update')
-  Route.delete('/delete/:food_id', 'FoodsController.destroy')
+  Route.post('/store', 'FoodsController.store').middleware(['auth'])
+  Route.post('/update/:food_id', 'FoodsController.update').middleware(['auth'])
+  Route.delete('/delete/:food_id', 'FoodsController.destroy').middleware(['auth'])
 }).prefix('/foods')
 
 Route.group(() => {
   Route.get('/', 'OrdersController.index')
   Route.get('/:order_id', 'OrdersController.find')
-  Route.post('/store', 'OrdersController.store')
-  Route.post('/update/:order_id', 'OrdersController.update')
-  Route.delete('/delete/:order_id', 'OrdersController.destroy')
+  Route.post('/store', 'OrdersController.store').middleware(['auth'])
+  Route.post('/update/:order_id', 'OrdersController.update').middleware(['auth'])
+  Route.delete('/delete/:order_id', 'OrdersController.destroy').middleware(['auth'])
 }).prefix('/orders')
 
 Route.group(() => {
   Route.get('/', 'UsersController.index')
   Route.get('/:user_id', 'UsersController.find')
-  Route.post('/address/:user_id', 'UsersController.storeUserAddress')
-  Route.post('/store', 'UsersController.store')
-  Route.post('/update/:user_id', 'UsersController.update')
-  Route.delete('/delete/:user_id', 'UsersController.destroy')
+  Route.post('/address/:user_id', 'UsersController.storeUserAddress').middleware(['auth'])
+  Route.post('/store', 'UsersController.store').middleware(['auth'])
+  Route.post('/update/:user_id', 'UsersController.update').middleware(['auth'])
+  Route.delete('/delete/:user_id', 'UsersController.destroy').middleware(['auth'])
 }).prefix('/users')

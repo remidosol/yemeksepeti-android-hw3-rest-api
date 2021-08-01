@@ -11,7 +11,7 @@ import { BaseModel, column, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm
  *      type: object
  *      properties:
  *        id:
- *          type: uint
+ *          type: number
  *        name:
  *          type: string
  *        typeOfRestaurant:

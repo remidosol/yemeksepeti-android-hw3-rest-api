@@ -1,5 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import S3 from '@ioc:Services/S3'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class UsersController {
   /**
@@ -19,6 +21,15 @@ export default class UsersController {
 
       const usersJSON = JSON.parse(JSON.stringify(users))
 
+      for (let user of usersJSON) {
+        if (
+          !user.profile.avatarUrl.startsWith('http://') ||
+          !user.profile.avatarUrl.startsWith('https://')
+        ) {
+          user.profile.avatarUrl = 'http://' + user.profile.avatarUrl
+        }
+      }
+
       return response.status(200).json({
         message: 'Users have been fetched.',
         data: usersJSON,
@@ -28,6 +39,7 @@ export default class UsersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -48,15 +60,25 @@ export default class UsersController {
       await user.load('orders')
       await user.load('userAddresses')
 
+      const userJSON = user.toJSON()
+
+      if (
+        !userJSON.profile.avatarUrl.startsWith('http://') ||
+        !userJSON.profile.avatarUrl.startsWith('https://')
+      ) {
+        userJSON.profile.avatarUrl = 'http://' + userJSON.profile.avatarUrl
+      }
+
       return response.status(200).json({
         message: 'User has been found.',
-        data: user.toJSON(),
+        data: userJSON,
       })
     } catch (error) {
       console.warn(error.message)
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -68,21 +90,58 @@ export default class UsersController {
    * @param ctx
    */
   public async store({ request, response }: HttpContextContract) {
+    const storeSchema = schema.create({
+      email: schema.string(
+        {
+          escape: true,
+          trim: true,
+        },
+        [rules.required(), rules.email(), rules.unique({ table: 'users', column: 'email' })]
+      ),
+
+      password: schema.string({}, [rules.required()]),
+    })
+
     try {
-      const userData = request.only(['email', 'password'])
-      const profileData = request.only(['avatarUrl', 'firstName', 'lastName', 'mobileNumber'])
+      const validatedData = await request.validate({
+        schema: storeSchema,
+        data: request.only(['email', 'password']),
+        messages: {
+          'email.required': 'You must provide email.',
+          'email.email': 'You must provide a valid email.',
+          'email.unique': 'This email is already registered.',
+          'password.required': 'You must provide a password.',
+        },
+      })
+
+      const profileData = request.only(['firstName', 'lastName', 'mobileNumber'])
+
+      const avatarFile = request.file('avatarUrl')
+
+      const avatarUrl = await S3.uploadToBucket(avatarFile!, 'users')
 
       const user = await User.create({
-        email: userData.email,
-        password: userData.password,
+        email: validatedData.email,
+        password: validatedData.password,
       })
 
       await user.related('profile').create({
         ...profileData,
+        avatarUrl: avatarUrl?.url,
       })
 
       await user.save()
       await user.load('profile')
+
+      const userJSON = user.toJSON()
+
+      if (
+        !userJSON.profile.avatarUrl.startsWith('http://') ||
+        !userJSON.profile.avatarUrl.startsWith('https://')
+      ) {
+        userJSON.profile.avatarUrl = 'http://' + userJSON.profile.avatarUrl
+      }
+
       await user.refresh()
 
       return response.status(200).json({
@@ -94,6 +153,7 @@ export default class UsersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -137,6 +197,7 @@ export default class UsersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -177,6 +238,7 @@ export default class UsersController {
   //     console.warn(error.stack)
   //     return response.status(500).json({
   //       message: 'Something went wrong.',
+  //       error: error,
   //     })
   //   }
   // }
@@ -191,18 +253,40 @@ export default class UsersController {
     try {
       const userId = params.user_id
       const userData = request.only(['email', 'password'])
-      const profileData = request.only(['avatarUrl', 'firstName', 'lastName', 'mobileNumber'])
+      const profileData = request.only(['firstName', 'lastName', 'mobileNumber'])
 
       let user = await User.findByOrFail('id', userId)
 
-      user = { ...user, ...userData }
+      const avatarFile = request.file('avatarUrl')
+
+      if (avatarFile) {
+        await S3.deleteFromBucket('users', user.profile.avatarUrl.split('/')[2])
+        const avatarUrl = await S3.uploadToBucket(avatarFile!, 'users')
+        user.profile.avatarUrl = avatarUrl?.url ? avatarUrl.url : user.profile.avatarUrl
+      }
+
+      user.email = userData.email ? userData.email : user.email
+      user.password = userData.password ? userData.password : user.password
+
+      user.profile.firstName = profileData.firstName
+        ? profileData.firstName
+        : user.profile.firstName
+
+      user.profile.lastName = profileData.lastName ? profileData.lastName : user.profile.lastName
+
+      user.profile.mobileNumber = profileData.mobileNumber
+        ? profileData.mobileNumber
+        : user.profile.mobileNumber
+
+      await user.save()
+      await user.refresh()
 
       await user.related('profile').updateOrCreate(
         {
           userId: user.id,
         },
         {
-          ...profileData,
+          ...user.profile,
         }
       )
 
@@ -218,6 +302,7 @@ export default class UsersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }
@@ -235,6 +320,10 @@ export default class UsersController {
       const user = await User.findByOrFail('id', userId)
 
       await user.related('orders').query().delete()
+      await user.load('profile')
+
+      await S3.deleteFromBucket('users', user.profile.avatarUrl.split('/')[2])
+
       await user.related('profile').query().delete()
       await user.related('userAddresses').query().delete()
       await user.delete()
@@ -248,6 +337,7 @@ export default class UsersController {
       console.warn(error.stack)
       return response.status(500).json({
         message: 'Something went wrong.',
+        error: error,
       })
     }
   }

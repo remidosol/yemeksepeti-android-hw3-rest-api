@@ -20,9 +20,17 @@ export default Env.rules({
   APP_KEY: Env.schema.string(),
   APP_NAME: Env.schema.string(),
   NODE_ENV: Env.schema.enum(['development', 'production', 'testing'] as const),
+
   MYSQL_HOST: Env.schema.string({ format: 'host' }),
   MYSQL_PORT: Env.schema.number(),
   MYSQL_USER: Env.schema.string(),
   MYSQL_PASSWORD: Env.schema.string.optional(),
   MYSQL_DB_NAME: Env.schema.string(),
+
+  AWS_ACCESS_KEY_ID: Env.schema.string(),
+  AWS_SECRET_ACCESS_KEY: Env.schema.string(),
+  AWS_PROFILE: Env.schema.string(),
+  AWS_EP: Env.schema.string(),
+  AWS_MAIN_BUCKET_NAME: Env.schema.string(),
+  AWS_REGION: Env.schema.string(),
 })

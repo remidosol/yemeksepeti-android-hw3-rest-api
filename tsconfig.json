@@ -29,7 +29,8 @@
       "@adonisjs/core",
       "@adonisjs/repl",
       "@adonisjs/lucid",
-      "adonis5-swagger"
+      "adonis5-swagger",
+      "@adonisjs/auth"
     ]
   }
 }

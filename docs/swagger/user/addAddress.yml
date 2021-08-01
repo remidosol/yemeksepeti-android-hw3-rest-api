@@ -1,23 +1,26 @@
 /users/address/{user_id}:
  post:
-   tags:
-     - users
-   description: Add address to user
-   parameters:
-     - name: user_id
-       in: path
-       required: true
-       schema:
+  security:
+    - bearerAuth: []
+  tags:
+    - users
+  description: Add address to user
+  parameters:
+    - name: user_id
+      in: path
+      required: true
+      schema:
         type: number
         properties:
           user_id:
             type: number
             example: 5
             required: true
-   requestBody:
+  requestBody:
     content:
       'application/json':
         schema:
+          type: object
           properties:
             country:
               type: string
@@ -47,37 +50,8 @@
               type: number
               example: 36.3361984
               required: false
-   produces:
-     - application/json
-   responses:
-     200:
+  produces:
+    - application/json
+  responses:
+    200:
       description: Address has been added to user.
-      example:
-        message: Address has been added to user.
-        user:
-          email: 'serverigaram@gmail.com'
-          avatarUrl: 'https://placeimg.com/500/500/people?95870'
-          firstName: 'Server-i'
-          lastName: 'Garam'
-          mobileNumber: '+905301176240'
-          userAddresses:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: number
-                country:
-                  type: string
-                city:
-                  type: string
-                district:
-                  type: string
-                neighborhood:
-                  type: string
-                street:
-                  type: string
-                latitude:
-                  type: number
-                longitude:
-                  type: number

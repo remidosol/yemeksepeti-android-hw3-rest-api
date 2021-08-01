@@ -1,12 +1,18 @@
 /foods/store:
  post:
-   tags:
-     - foods 
-   description: Store a food
-   requestBody:
+  security:
+    - bearerAuth: []
+  tags:
+    - foods 
+  description: Store a food
+  requestBody:
     content:
-      'application/json':
+      'multipart/form-data':
+        encoding: # The same level as schema
+          imageUrl: # Property name (see above)
+            contentType: image/png, image/jpeg
         schema:
+          type: object
           properties:
             name:
               type: string
@@ -18,17 +24,10 @@
               required: true
             imageUrl:
               type: string
-              format: uri
-              example: 'https://placeimg.com/500/500/people?95870'
+              format: binary
               required: true
-   produces:
-     - application/json
-   responses:
-     200:
+  produces:
+    - application/json
+  responses:
+    200:
       description: Food has been stored.
-      example:
-        message: Food has been stored.
-        food:
-          name: 'Burger'
-          price: 25.5
-          imageUrl: 'https://placeimg.com/500/500/people?95870'

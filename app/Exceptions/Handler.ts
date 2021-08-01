@@ -15,9 +15,28 @@
 
 import Logger from '@ioc:Adonis/Core/Logger'
 import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class ExceptionHandler extends HttpExceptionHandler {
   constructor() {
     super(Logger)
+  }
+
+  public async handle(error, ctx: HttpContextContract) {
+    if (error.code === 'E_UNAUTHORIZED_ACCESS') {
+      return ctx.response.status(401).json({
+        message: 'Access denied, please login!',
+      })
+    } else if (error.code === 'E_INVALID_AUTH_UID') {
+      return ctx.response.status(401).json({
+        messages: "You're not exist!",
+      })
+    } else if (error.code === 'E_INVALID_AUTH_PASSWORD') {
+      return ctx.response.status(401).json({
+        messages: 'Be sure that you enter the true password.',
+      })
+    }
+
+    return super.handle(error, ctx)
   }
 }

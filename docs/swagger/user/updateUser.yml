@@ -1,23 +1,29 @@
 /users/update/{user_id}:
  post:
-   tags:
-     - users
-   description: Update a user
-   parameters:
-     - name: user_id
-       in: path
-       required: true
-       schema:
+  security:
+    - bearerAuth: []
+  tags:
+    - users
+  description: Update a user
+  parameters:
+    - name: user_id
+      in: path
+      required: true
+      schema:
         type: number
         properties:
           user_id:
             type: number
             example: 5
             required: true
-   requestBody:
+  requestBody:
     content:
-      'application/json':
+      'multipart/form-data':
+        encoding: # The same level as schema
+          avatarUrl: # Property name (see above)
+            contentType: image/png, image/jpeg
         schema:
+          type: object
           properties:
             email:
               type: string
@@ -31,8 +37,7 @@
               required: false
             avatarUrl:
               type: string
-              format: uri
-              example: 'https://placeimg.com/500/500/people?95870'
+              format: binary
               required: false
             firstName:
               type: string
@@ -47,16 +52,8 @@
               pattern: '^(\+\d{1,3}[- ]?)?\d{10}$'
               example: '+905301176240'
               required: false
-   produces:
-     - application/json
-   responses:
-     200:
+  produces:
+    - application/json
+  responses:
+    200:
       description: User has been updated.
-      example:
-        message: User has been updated.
-        user:
-          email: 'serverigaram@gmail.com'
-          avatarUrl: 'https://placeimg.com/500/500/people?95870'
-          firstName: 'Server-i'
-          lastName: 'Garam'
-          mobileNumber: '+905301176240'

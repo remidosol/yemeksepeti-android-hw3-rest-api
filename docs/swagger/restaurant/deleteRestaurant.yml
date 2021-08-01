@@ -1,21 +1,23 @@
 /restaurants/delete/{restaurant_id}:
  delete:
-   tags:
-     - restaurants
-   description: Delete a restaurant
-   parameters:
-     - name: restaurant_id
-       in: path
-       required: true
-       schema:
+  security:
+    - bearerAuth: []
+  tags:
+    - restaurants
+  description: Delete a restaurant
+  parameters:
+    - name: restaurant_id
+      in: path
+      required: true
+      schema:
         type: number
         properties:
           restaurant_id:
             type: number
             example: 5
             required: true
-   produces:
-     - application/json
-   responses:
-     200:
-       description: Restaurant has been deleted.
+  produces:
+    - application/json
+  responses:
+    200:
+      description: Restaurant has been deleted.

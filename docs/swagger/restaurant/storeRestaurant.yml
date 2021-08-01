@@ -1,12 +1,18 @@
 /restaurants/store:
  post:
-   tags:
-     - restaurants
-   description: Store a restaurant
-   requestBody:
+  security:
+    - bearerAuth: []
+  tags:
+    - restaurants
+  description: Store a restaurant
+  requestBody:
     content:
-      'application/json':
+      'multipart/form-data':
+        encoding: # The same level as schema
+          logoUrl: # Property name (see above)
+            contentType: image/png, image/jpeg
         schema:
+          type: object
           properties:
             name:
               type: string
@@ -18,17 +24,10 @@
               required: true
             logoUrl:
               type: string
-              format: uri
-              example: 'https://placeimg.com/500/500/people?95870'
+              format: binary
               required: true
-   produces:
-     - application/json
-   responses:
-     200:
+  produces:
+    - application/json
+  responses:
+    200:
       description: Restaurant has been stored.
-      example:
-        message: Restaurant has been stored.
-        restaurant:
-          name: 'Burger King'
-          typeOfRestaurant: 'Burger & Steak'
-          logoUrl: 'https://placeimg.com/500/500/people?95870'

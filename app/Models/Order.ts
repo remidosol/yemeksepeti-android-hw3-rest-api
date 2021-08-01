@@ -26,11 +26,11 @@ export enum PaymentMethods {
  *      type: object
  *      properties:
  *        id:
- *          type: uint
+ *          type: number
  *        userId:
- *          type: uint
+ *          type: number
  *        restaurantId:
- *          type: uint
+ *          type: number
  *        orderNote:
  *          type: string
  *        orderPaymentMethod:

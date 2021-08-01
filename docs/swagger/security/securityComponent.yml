@@ -1,0 +1,6 @@
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: "Standard Authorization header using the Bearer scheme. Example: \"Bearer {token}\""

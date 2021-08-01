@@ -10,9 +10,9 @@ import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
  *      type: object
  *      properties:
  *        id:
- *          type: uint
+ *          type: number
  *        userId:
- *          type: uint
+ *          type: number
  *        firstName:
  *          type: string
  *        lastName:

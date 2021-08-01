@@ -22,7 +22,9 @@
     "./providers/AppProvider",
     "@adonisjs/core",
     "@adonisjs/lucid",
-    "adonis5-swagger"
+    "adonis5-swagger",
+    "@adonisjs/auth",
+    "./providers/CdnProvider"
   ],
   "aceProviders": [
     "@adonisjs/repl"

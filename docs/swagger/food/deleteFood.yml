@@ -1,22 +1,24 @@
 
 /foods/delete/{food_id}:
  delete:
-   tags:
-     - foods
-   description: Delete a food
-   parameters:
-     - name: food_id
-       in: path
-       required: true
-       schema:
+  security:
+    - bearerAuth: []
+  tags:
+    - foods
+  description: Delete a food
+  parameters:
+    - name: food_id
+      in: path
+      required: true
+      schema:
         type: number
         properties:
           food_id:
             type: number
             example: 5
             required: true
-   produces:
-     - application/json
-   responses:
-     200:
-       description: Food has been deleted.
+  produces:
+    - application/json
+  responses:
+    200:
+      description: Food has been deleted.
