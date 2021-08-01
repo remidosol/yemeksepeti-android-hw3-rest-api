@@ -5,7 +5,7 @@ import faker from 'faker/locale/tr'
 export default class FoodSeeder extends BaseSeeder {
   public async run() {
     try {
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 50; i++) {
         let food = await Food.create({
           name: faker.commerce.productName(),
           price: faker.datatype.float({ min: 3.0, max: 159.9, precision: 0.4 }),
