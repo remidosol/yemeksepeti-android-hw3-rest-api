@@ -12,20 +12,18 @@
           imageUrl: # Property name (see above)
             contentType: image/png, image/jpeg
         schema:
+          required: [name, price, imageUrl]
           type: object
           properties:
             name:
               type: string
               example: 'Burger'
-              required: true
             price:
               type: number
               example: 25.5
-              required: true
             imageUrl:
               type: string
               format: binary
-              required: true
   produces:
     - application/json
   responses:

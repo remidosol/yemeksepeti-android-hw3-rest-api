@@ -15,7 +15,6 @@
         food_id:
           type: number
           example: 5
-          required: true
   requestBody:
     content:
       'multipart/form-data':
@@ -28,15 +27,12 @@
             name:
               type: string
               example: 'Burger'
-              required: false
             price:
               type: number
               example: 25.5
-              required: false
             imageUrl:
               type: string
               format: binary
-              required: false
   produces:
     - application/json
   responses:

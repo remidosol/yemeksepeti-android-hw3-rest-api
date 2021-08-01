@@ -9,20 +9,18 @@
     content:
       'application/json':
         schema:
+          required: [restaurantId, userId, orderNote, orderPaymentMethod]
           type: object
           properties:
             restaurantId:
               type: number
               example: 5
-              required: true
             userId:
               type: number
               example: 3
-              required: true
             orderNote:
               type: string
               example: 'Please bring the order hot'
-              required: true
             orderPaymentMethod:
               type: string
               enum:
@@ -30,7 +28,6 @@
                 - CASH
                 - COUPON
               example: CREDIT_CARD
-              required: true
   produces:
     - application/json
   responses:

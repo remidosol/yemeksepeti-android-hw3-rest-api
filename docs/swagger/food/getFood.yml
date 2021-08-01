@@ -6,6 +6,7 @@
   parameters:
     - in: query
       name: page
+      required: true
       schema:
         type: integer
       description: The number of page (every page fetch 10 items)

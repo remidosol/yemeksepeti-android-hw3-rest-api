@@ -9,16 +9,15 @@
     content:
       'application/json':
         schema:
+          required: [restaurantId, foodId]
           type: object
           properties:
             restaurantId:
               type: number
               example: 2
-              required: true
             foodId:
               type: number
               example: 5
-              required: true
   produces:
     - application/json
   responses:

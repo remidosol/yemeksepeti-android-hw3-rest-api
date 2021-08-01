@@ -15,41 +15,34 @@
           user_id:
             type: number
             example: 5
-            required: true
   requestBody:
     content:
       'application/json':
         schema:
+          required: [country, city, district, neighborhood, street]
           type: object
           properties:
             country:
               type: string
               example: 'Turkey'
-              required: true
             city:
               type: string
               example: 'Samsun'
-              required: true
             district:
               type: string
               example: 'Ilkadım'
-              required: true
             neighborhood:
               type: string
               example: '19 Mayis'
-              required: true
             street:
               type: string
               example: 'Meşrutyet Sokak'
-              required: true
             latitude:
               type: number
               example: 41.2879181
-              required: false
             longitude:
               type: number
               example: 36.3361984
-              required: false
   produces:
     - application/json
   responses:

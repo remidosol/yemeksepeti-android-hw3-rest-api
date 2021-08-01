@@ -15,7 +15,6 @@
           restaurant_id:
             type: number
             example: 3
-            required: true
   requestBody:
     content:
       'multipart/form-data':
@@ -28,15 +27,12 @@
             name:
               type: string
               example: 'Burger King'
-              required: false
             typeOfRestaurant:
               type: string
               example: 'Burger & Steak'
-              required: false
             logoUrl:
               type: string
               format: binary
-              required: false
   produces:
     - application/json
   responses:

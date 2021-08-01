@@ -12,20 +12,18 @@
           logoUrl: # Property name (see above)
             contentType: image/png, image/jpeg
         schema:
+          required: [name, typeOfRestaurant, logoUrl]
           type: object
           properties:
             name:
               type: string
               example: 'Burger King'
-              required: true
             typeOfRestaurant:
               type: string
               example: 'Burger & Steak'
-              required: true
             logoUrl:
               type: string
               format: binary
-              required: true
   produces:
     - application/json
   responses:

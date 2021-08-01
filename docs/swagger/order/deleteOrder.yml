@@ -15,7 +15,6 @@
           order_id:
             type: number
             example: 5
-            required: true
   produces:
     - application/json
   responses:

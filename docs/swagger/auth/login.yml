@@ -7,16 +7,15 @@
     content:
       'application/json':
         schema:
+          required: [email, password]
           type: object
           properties:
             email:
               type: string
               example: 'serverigaram@gmail.com'
-              required: true
             password:
               type: string
               example: 'remidosol4434'
-              required: true
    produces:
      - application/json
    responses:

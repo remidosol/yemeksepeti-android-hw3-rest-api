@@ -15,7 +15,6 @@
           order_id:
             type: number
             example: 5
-            required: true
   requestBody:
     content:
       'application/json':
@@ -25,15 +24,12 @@
             restaurantId:
               type: number
               example: 5
-              required: false
             userId:
               type: number
               example: 3
-              required: false
             orderNote:
               type: string
               example: 'Please bring the order hot'
-              required: false
             orderPaymentMethod:
               type: string
               enum:
@@ -41,7 +37,6 @@
                 - CASH
                 - COUPON
               example: CREDIT_CARD
-              required: false
   produces:
     - application/json
   responses:
