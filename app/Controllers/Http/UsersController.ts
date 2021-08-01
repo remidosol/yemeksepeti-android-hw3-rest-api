@@ -21,7 +21,7 @@ export default class UsersController {
 
       const usersJSON = JSON.parse(JSON.stringify(users))
 
-      for (let user of usersJSON) {
+      for (let user of usersJSON.data) {
         if (
           !user.profile.avatarUrl.startsWith('http://') ||
           !user.profile.avatarUrl.startsWith('https://')

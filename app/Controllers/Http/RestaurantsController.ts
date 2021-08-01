@@ -20,7 +20,7 @@ export default class RestaurantsController {
 
       const restaurantsJSON = JSON.parse(JSON.stringify(restaurants))
 
-      for (let restaurant of restaurantsJSON) {
+      for (let restaurant of restaurantsJSON.data) {
         if (
           !restaurant.logoUrl.startsWith('http://') ||
           !restaurant.logoUrl.startsWith('https://')

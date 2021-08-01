@@ -16,7 +16,7 @@ export default class FoodsController {
 
       const foodsJSON = JSON.parse(JSON.stringify(foods))
 
-      for (let food of foodsJSON) {
+      for (let food of foodsJSON.data) {
         if (!food.imageUrl.startsWith('http://') || !food.imageUrl.startsWith('https://')) {
           food.imageUrl = 'http://' + food.imageUrl
         }
