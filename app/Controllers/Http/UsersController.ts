@@ -133,6 +133,8 @@ export default class UsersController {
       await user.save()
       await user.load('profile')
 
+      await user.refresh()
+
       const userJSON = user.toJSON()
 
       if (
@@ -142,11 +144,9 @@ export default class UsersController {
         userJSON.profile.avatarUrl = 'http://' + userJSON.profile.avatarUrl
       }
 
-      await user.refresh()
-
       return response.status(200).json({
         message: 'User and its profile has been created.',
-        data: user.toJSON(),
+        data: userJSON,
       })
     } catch (error) {
       console.warn(error.message)

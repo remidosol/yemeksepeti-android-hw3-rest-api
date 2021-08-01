@@ -1,7 +1,65 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import LogInValidator from 'App/Validators/LoginValidator'
+import RegisterValidator from 'App/Validators/RegisterValidator'
+import User from 'App/Models/User'
+import S3 from '@ioc:Services/S3'
 
 export default class AuthController {
+  /**
+   * Register user with given email and password.
+   *
+   * @param {HttpContextContract} ctx
+   * @returns
+   * @memberof AuthController
+   */
+  public async register({ request, response }: HttpContextContract) {
+    try {
+      const validatedData = await request.validate(RegisterValidator)
+
+      const profileData = request.only(['firstName', 'lastName', 'mobileNumber'])
+
+      const avatarFile = request.file('avatarUrl')
+
+      const avatarUrl = await S3.uploadToBucket(avatarFile!, 'users')
+
+      const user = await User.create({
+        email: validatedData.email,
+        password: validatedData.password,
+      })
+
+      await user.related('profile').create({
+        ...profileData,
+        avatarUrl: avatarUrl?.url,
+      })
+
+      await user.save()
+      await user.load('profile')
+
+      await user.refresh()
+
+      const userJSON = user.toJSON()
+
+      if (
+        !userJSON.profile.avatarUrl.startsWith('http://') ||
+        !userJSON.profile.avatarUrl.startsWith('https://')
+      ) {
+        userJSON.profile.avatarUrl = 'http://' + userJSON.profile.avatarUrl
+      }
+
+      return response.status(200).json({
+        message: 'You successfully registered.',
+        data: userJSON,
+      })
+    } catch (error) {
+      console.warn(error.messages)
+      console.warn(error.stack)
+      return response.status(500).json({
+        message: 'Something went wrong.',
+        error: error,
+      })
+    }
+  }
+
   /**
    * Log in
    *
