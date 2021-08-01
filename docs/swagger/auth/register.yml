@@ -20,7 +20,13 @@
             password:
               type: string
               format: password
+              description: 'Password'
               example: 'remidosol4434'
+              required: true
+            password_confirmation:
+              type: string
+              example: 'remidosol4434'
+              description: 'Password confirmation'
               required: true
             avatarUrl:
               type: string
