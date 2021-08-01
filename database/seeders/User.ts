@@ -10,9 +10,9 @@ export default class UserSeeder extends BaseSeeder {
     try {
       let methods = [PaymentMethods.CASH, PaymentMethods.COUPON, PaymentMethods.CREDIT_CARD]
 
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 10; i++) {
         let randAddressCount = faker.datatype.number({ min: 1, max: 3, precision: 1 })
-        let randOrderCount = faker.datatype.number({ min: 10, max: 40, precision: 1 })
+        let randOrderCount = faker.datatype.number({ min: 10, max: 20, precision: 1 })
         let randGender = faker.datatype.number({ min: 0, max: 1, precision: 1 })
 
         let user = await User.create({
