@@ -36,7 +36,7 @@ export default class OrdersController {
 
   /**
    *
-   * Find a Food
+   * Find a Order
    *
    * @param ctx
    */

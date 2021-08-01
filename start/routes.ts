@@ -60,6 +60,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/', 'UsersController.index')
   Route.get('/:user_id', 'UsersController.find')
+  Route.get('/orders', 'UsersController.getOrders').middleware(['auth'])
   Route.post('/address/:user_id', 'UsersController.storeUserAddress').middleware(['auth'])
   Route.post('/store', 'UsersController.store').middleware(['auth'])
   Route.post('/update/:user_id', 'UsersController.update').middleware(['auth'])

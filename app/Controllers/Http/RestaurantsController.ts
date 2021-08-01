@@ -45,7 +45,7 @@ export default class RestaurantsController {
 
   /**
    *
-   * Find a Food
+   * Find a Restaurant
    *
    * @param ctx
    */
@@ -129,7 +129,7 @@ export default class RestaurantsController {
 
   /**
    *
-   * Store a restaurant address.
+   * Store a Restaurant address.
    *
    * @param ctx
    */

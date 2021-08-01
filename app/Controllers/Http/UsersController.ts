@@ -46,7 +46,7 @@ export default class UsersController {
 
   /**
    *
-   * Find a Food
+   * Find a User
    *
    * @param ctx
    */
@@ -72,6 +72,32 @@ export default class UsersController {
       return response.status(200).json({
         message: 'User has been found.',
         data: userJSON,
+      })
+    } catch (error) {
+      console.warn(error.message)
+      console.warn(error.stack)
+      return response.status(500).json({
+        message: 'Something went wrong.',
+        error: error,
+      })
+    }
+  }
+
+  /**
+   *
+   * Fetch User's orders
+   *
+   * @param ctx
+   */
+  public async getOrders({ response, auth }: HttpContextContract) {
+    try {
+      await auth.user!.load('orders')
+
+      const userJSON = auth.user!.toJSON()
+
+      return response.status(200).json({
+        message: 'Orders of user that is logged in has been fetched.',
+        data: userJSON.orders,
       })
     } catch (error) {
       console.warn(error.message)
