@@ -72,10 +72,6 @@ export default class OrdersController {
    */
   public async store({ request, response, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const receivedData = request.only([
         'orderNote',
         'orderPaymentMethod',
@@ -113,10 +109,6 @@ export default class OrdersController {
    */
   public async update({ request, response, params, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const orderId = params.order_id
 
       const receivedData = request.only([
@@ -158,10 +150,6 @@ export default class OrdersController {
    */
   public async destroy({ response, params, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const orderId = params.order_id
 
       const order = await Order.findByOrFail('id', orderId)

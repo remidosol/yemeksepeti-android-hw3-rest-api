@@ -91,12 +91,12 @@ export default class UsersController {
    */
   public async getOrders({ response, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
+      // if (await auth.authenticate())
+      //   return response.status(403).json({
+      //     message: 'Please login.',
+      //   })
 
-      const user = await User.findByOrFail('email', auth.user!.email)
+      const user = await auth.use('api').authenticate() //await User.findByOrFail('email', auth.user?.email)
 
       await user.load('orders')
 
@@ -136,10 +136,6 @@ export default class UsersController {
     })
 
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const validatedData = await request.validate({
         schema: storeSchema,
         data: request.only(['email', 'password']),
@@ -203,11 +199,6 @@ export default class UsersController {
    */
   public async storeUserAddress({ request, response, params, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
-
       const userId = params.user_id
       const addressData = request.only([
         'country',
@@ -293,10 +284,6 @@ export default class UsersController {
    */
   public async update({ request, response, params, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const userId = params.user_id
       const userData = request.only(['email', 'password'])
       const profileData = request.only(['firstName', 'lastName', 'mobileNumber'])
@@ -361,10 +348,6 @@ export default class UsersController {
    */
   public async destroy({ response, params, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const userId = params.user_id
 
       const user = await User.findByOrFail('id', userId)

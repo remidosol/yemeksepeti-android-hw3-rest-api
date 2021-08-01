@@ -78,10 +78,6 @@ export default class FoodsController {
    */
   public async store({ request, response, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const receivedData = request.only(['name', 'price'])
 
       const imageFile = request.file('imageUrl')
@@ -125,10 +121,6 @@ export default class FoodsController {
    */
   public async update({ request, response, params, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const foodId = params.food_id
 
       const receivedData = request.only(['name', 'price'])
@@ -172,10 +164,6 @@ export default class FoodsController {
    */
   public async destroy({ response, params, auth }: HttpContextContract) {
     try {
-      if (await auth.check())
-        return response.status(403).json({
-          message: 'Please login.',
-        })
       const foodId = params.food_id
 
       const food = await Food.findByOrFail('id', foodId)

@@ -32,9 +32,9 @@ Route.get('/logout', 'AuthController.logout').middleware('auth')
 Route.group(() => {
   Route.get('/', 'RestaurantsController.index')
   Route.get('/:restaurant_id', 'RestaurantsController.find')
-  Route.post('/address/:restaurant_id', 'RestaurantsController.storeRestaurantAddress').middleware([
-    'auth',
-  ])
+  Route.post('/address/:restaurant_id', 'RestaurantsController.storeRestaurantAddress').middleware(
+    'auth'
+  )
   Route.post('/food', 'RestaurantsController.addFoodToRestaurant').middleware('auth')
   Route.post('/store', 'RestaurantsController.store').middleware('auth')
   Route.post('/update/:restaurant_id', 'RestaurantsController.update').middleware('auth')
