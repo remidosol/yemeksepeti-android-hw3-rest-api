@@ -3,6 +3,7 @@ import Env from '@ioc:Adonis/Core/Env'
 import { S3ServiceConfig } from '@ioc:Services/S3Config'
 import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 import fs from 'fs'
+import { v4 as uuid } from 'uuid'
 
 import { S3, SharedIniFileCredentials, Endpoint, config } from 'aws-sdk'
 
@@ -126,14 +127,16 @@ export class S3Service {
     bucketName: string // this bucketName can be sent with uuid of user. i.e.: '${auth.user!.uuid}/modelName'
   ): Promise<{ url: string } | undefined> {
     try {
-      const { type, subtype, clientName } = file
+      const { type, subtype, extname } = file
 
       let mimeTypeFromMultipartFile = type + '/' + subtype
+
+      const newFileName = uuid() + '.' + extname
 
       await this.getS3()
         .upload(
           {
-            Key: clientName,
+            Key: newFileName,
             Bucket: bucketName,
             ContentType: mimeTypeFromMultipartFile,
             Body: fs.createReadStream(file.tmpPath!),
@@ -148,7 +151,7 @@ export class S3Service {
         .promise()
 
       return {
-        url: `${this.uploadConfig.upload.ep}/` + bucketName + '/' + clientName,
+        url: `${this.uploadConfig.upload.ep}/` + bucketName + '/' + newFileName,
       }
     } catch (err) {
       console.log(err.message)
