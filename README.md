@@ -5,15 +5,12 @@ Here the link: https://yemeksepeti-android-hw3-api.herokuapp.com/
 
 ---
 
+### I've used **yarn** and there is only **yarn.lock** file, so I'll give you **yarn** and **node ace** commands.
+
+---
 ## Setup
 
 Use the adonis command to install dependencies
-
-```bash
-npm install
-```
-
-or
 
 ```bash
 yarn
@@ -36,22 +33,10 @@ For seed to database with dummy data, run command below:
 yarn seed
 ```
 
-or
-
-```bash
-npm run seed
-```
-
 ---
 ## Run
 
 After **Setup**, run the following command to run the application.
-
-```bash
-npm run start
-```
-
-or
 
 ```bash
 yarn start
@@ -59,14 +44,7 @@ yarn start
 
 ---
 
-To start in development environment and watch the changed files, run the command below:
-
-
-```bash
-npm run dev
-```
-
-or
+To start in *development environment* and **watch the changed files**, run the command below:
 
 ```bash
 yarn dev
@@ -77,12 +55,6 @@ The command above can start the project without build the project.
 ---
 
 You can build the project for **production** if you want, run the command below:
-
-```bash
-npm run build
-```
-
-or
 
 ```bash
 yarn build
