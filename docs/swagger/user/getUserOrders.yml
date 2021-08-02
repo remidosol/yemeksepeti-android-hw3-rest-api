@@ -1,13 +1,13 @@
 
 /users/orders:
- get:
+ post:
   security:
-    - bearerAuth: []
+   - bearerAuth: []
   tags:
-    - users
+   - users
   description: Fetch logged in user's orders
   produces:
-    - application/json
+   - application/json
   responses:
-    200:
-      description: User's orders have been found.
+   200:
+    description: User's orders have been found.

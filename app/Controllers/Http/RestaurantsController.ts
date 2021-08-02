@@ -133,7 +133,7 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async storeRestaurantAddress({ request, response, params, auth }: HttpContextContract) {
+  public async storeRestaurantAddress({ request, response, params }: HttpContextContract) {
     try {
       const restaurantId = params.restaurant_id
       const addressData = request.only([
@@ -176,7 +176,7 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async addFoodToRestaurant({ request, response, auth }: HttpContextContract) {
+  public async addFoodToRestaurant({ request, response }: HttpContextContract) {
     try {
       const receivedData = request.only(['restaurantId', 'foodId'])
 
@@ -209,7 +209,7 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async update({ request, response, params, auth }: HttpContextContract) {
+  public async update({ request, response, params }: HttpContextContract) {
     try {
       const restaurantId = params.restaurant_id
 
@@ -252,7 +252,7 @@ export default class RestaurantsController {
    *
    * @param ctx
    */
-  public async destroy({ response, params, auth }: HttpContextContract) {
+  public async destroy({ response, params }: HttpContextContract) {
     try {
       const restaurantId = params.restaurant_id
 

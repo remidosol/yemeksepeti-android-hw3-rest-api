@@ -70,7 +70,7 @@ export default class OrdersController {
    *
    * @param ctx
    */
-  public async store({ request, response, auth }: HttpContextContract) {
+  public async store({ request, response }: HttpContextContract) {
     try {
       const receivedData = request.only([
         'orderNote',
@@ -107,7 +107,7 @@ export default class OrdersController {
    *
    * @param ctx
    */
-  public async update({ request, response, params, auth }: HttpContextContract) {
+  public async update({ request, response, params }: HttpContextContract) {
     try {
       const orderId = params.order_id
 
@@ -148,7 +148,7 @@ export default class OrdersController {
    *
    * @param ctx
    */
-  public async destroy({ response, params, auth }: HttpContextContract) {
+  public async destroy({ response, params }: HttpContextContract) {
     try {
       const orderId = params.order_id
 

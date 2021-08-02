@@ -67,7 +67,7 @@ export default class AuthController {
    * @returns
    * @memberof AuthController
    */
-  public async login({ request, auth, response }: HttpContextContract) {
+  public async login({ request, response, auth }: HttpContextContract) {
     try {
       const { email, password } = await request.validate(LogInValidator)
 

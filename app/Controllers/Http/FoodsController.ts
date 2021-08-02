@@ -76,7 +76,7 @@ export default class FoodsController {
    *
    * @param ctx
    */
-  public async store({ request, response, auth }: HttpContextContract) {
+  public async store({ request, response }: HttpContextContract) {
     try {
       const receivedData = request.only(['name', 'price'])
 
@@ -119,7 +119,7 @@ export default class FoodsController {
    *
    * @param ctx
    */
-  public async update({ request, response, params, auth }: HttpContextContract) {
+  public async update({ request, response, params }: HttpContextContract) {
     try {
       const foodId = params.food_id
 
@@ -162,7 +162,7 @@ export default class FoodsController {
    *
    * @param ctx
    */
-  public async destroy({ response, params, auth }: HttpContextContract) {
+  public async destroy({ response, params }: HttpContextContract) {
     try {
       const foodId = params.food_id
 

@@ -54,19 +54,19 @@ export default class UsersController {
     try {
       const userId = params.user_id
 
-      const user = await User.findByOrFail('id', userId)
+      const user = await User.findBy('id', userId)
 
-      await user.load('profile')
-      await user.load('orders')
-      await user.load('userAddresses')
+      await user?.load('profile')
+      await user?.load('orders')
+      await user?.load('userAddresses')
 
-      const userJSON = user.toJSON()
+      const userJSON = user?.toJSON()
 
       if (
-        !userJSON.profile.avatarUrl.startsWith('http://') ||
-        !userJSON.profile.avatarUrl.startsWith('https://')
+        (user?.profile !== null && !user?.profile.avatarUrl.startsWith('http://')) ||
+        !user?.profile.avatarUrl.startsWith('https://')
       ) {
-        userJSON.profile.avatarUrl = 'http://' + userJSON.profile.avatarUrl
+        userJSON!.profile.avatarUrl = 'http://' + userJSON?.profile.avatarUrl
       }
 
       return response.status(200).json({
@@ -91,20 +91,18 @@ export default class UsersController {
    */
   public async getOrders({ response, auth }: HttpContextContract) {
     try {
-      // if (await auth.authenticate())
-      //   return response.status(403).json({
-      //     message: 'Please login.',
-      //   })
+      await auth.use('api').authenticate()
+      console.log(auth.user)
 
-      const user = await auth.use('api').authenticate() //await User.findByOrFail('email', auth.user?.email)
+      const user = await User.query().where('email', auth.user!.email).first()
 
-      await user.load('orders')
+      await user?.load('orders')
 
       const userJSON = user!.toJSON()
 
       return response.status(200).json({
         message: 'Orders of user that is logged in has been fetched.',
-        data: userJSON.orders,
+        data: userJSON,
       })
     } catch (error) {
       console.warn(error.message)
@@ -122,7 +120,7 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async store({ request, response, auth }: HttpContextContract) {
+  public async store({ request, response }: HttpContextContract) {
     const storeSchema = schema.create({
       email: schema.string(
         {
@@ -197,7 +195,7 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async storeUserAddress({ request, response, params, auth }: HttpContextContract) {
+  public async storeUserAddress({ request, response, params }: HttpContextContract) {
     try {
       const userId = params.user_id
       const addressData = request.only([
@@ -282,7 +280,7 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async update({ request, response, params, auth }: HttpContextContract) {
+  public async update({ request, response, params }: HttpContextContract) {
     try {
       const userId = params.user_id
       const userData = request.only(['email', 'password'])
@@ -346,7 +344,7 @@ export default class UsersController {
    *
    * @param ctx
    */
-  public async destroy({ response, params, auth }: HttpContextContract) {
+  public async destroy({ response, params }: HttpContextContract) {
     try {
       const userId = params.user_id
 
