@@ -5,7 +5,7 @@ Here the link: https://yemeksepeti-android-hw3-api.herokuapp.com/
 
 ---
 
-### I've used **yarn** and there is only **yarn.lock** file, so I'll give you **yarn** and **node ace** commands.
+### I've used "yarn" and there is only "yarn.lock" file, so I'll give you "yarn" and "node ace" commands.
 
 ---
 ## Setup
