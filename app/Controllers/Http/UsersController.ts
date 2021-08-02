@@ -91,10 +91,7 @@ export default class UsersController {
    */
   public async getOrders({ response, auth }: HttpContextContract) {
     try {
-      await auth.use('api').authenticate()
-      console.log(auth.user)
-
-      const user = await User.query().where('email', auth.user!.email).first()
+      const user = await auth.use('api').authenticate()
 
       await user?.load('orders')
 
@@ -288,9 +285,11 @@ export default class UsersController {
 
       let user = await User.findByOrFail('id', userId)
 
+      await user.load('profile')
+
       const avatarFile = request.file('avatarUrl')
 
-      if (avatarFile) {
+      if (avatarFile && !user.profile.avatarUrl.startsWith('http')) {
         await S3.deleteFromBucket('users', user.profile.avatarUrl.split('/')[2])
         const avatarUrl = await S3.uploadToBucket(avatarFile!, 'users')
         user.profile.avatarUrl = avatarUrl?.url ? avatarUrl.url : user.profile.avatarUrl
@@ -353,7 +352,9 @@ export default class UsersController {
       await user.related('orders').query().delete()
       await user.load('profile')
 
-      await S3.deleteFromBucket('users', user.profile.avatarUrl.split('/')[2])
+      if (!user.profile.avatarUrl.startsWith('http')) {
+        await S3.deleteFromBucket('users', user.profile.avatarUrl.split('/')[2])
+      }
 
       await user.related('profile').query().delete()
       await user.related('userAddresses').query().delete()

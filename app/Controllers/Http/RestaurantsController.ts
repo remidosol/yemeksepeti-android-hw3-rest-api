@@ -218,7 +218,7 @@ export default class RestaurantsController {
       const restaurant = await Restaurant.findByOrFail('id', restaurantId)
 
       const logoFile = request.file('logoUrl')
-      if (logoFile) {
+      if (logoFile && !restaurant.logoUrl.startsWith('http')) {
         await S3.deleteFromBucket('restaurants', restaurant.logoUrl.split('/')[2])
         const logoUrl = await S3.uploadToBucket(logoFile!, 'restaurants')
         restaurant.logoUrl = logoUrl?.url ? logoUrl.url : restaurant.logoUrl
@@ -261,7 +261,9 @@ export default class RestaurantsController {
       await restaurant.related('restaurantAddress').query().delete()
       await restaurant.related('restaurantFoods').query().delete()
 
-      await S3.deleteFromBucket('restaurants', restaurant.logoUrl.split('/')[2])
+      if (!restaurant.logoUrl.startsWith('http')) {
+        await S3.deleteFromBucket('restaurants', restaurant.logoUrl.split('/')[2])
+      }
       await restaurant.delete()
 
       return response.status(200).json({

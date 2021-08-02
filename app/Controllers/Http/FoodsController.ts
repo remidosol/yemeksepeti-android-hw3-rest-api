@@ -129,7 +129,7 @@ export default class FoodsController {
 
       const imageFile = request.file('imageUrl')
 
-      if (imageFile) {
+      if (imageFile && !food.imageUrl.startsWith('http')) {
         await S3.deleteFromBucket('foods', food.imageUrl.split('/')[2])
 
         const imageUrl = await S3.uploadToBucket(imageFile!, 'foods')
@@ -168,7 +168,9 @@ export default class FoodsController {
 
       const food = await Food.findByOrFail('id', foodId)
 
-      await S3.deleteFromBucket('foods', food.imageUrl.split('/')[2])
+      if (!food.imageUrl.startsWith('http')) {
+        await S3.deleteFromBucket('foods', food.imageUrl.split('/')[2])
+      }
 
       await food.delete()
 
