@@ -10,11 +10,11 @@
       in: path
       required: true
       schema:
-      type: number
-      properties:
-        food_id:
-          type: number
-          example: 5
+        type: number
+        properties:
+          food_id:
+            type: number
+            example: 5
   requestBody:
     content:
       'multipart/form-data':
@@ -33,8 +33,6 @@
             imageUrl:
               type: string
               format: binary
-  produces:
-    - application/json
   responses:
     200:
       description: Food has been updated.

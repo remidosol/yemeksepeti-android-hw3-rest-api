@@ -24,8 +24,6 @@
             logoUrl:
               type: string
               format: binary
-  produces:
-    - application/json
   responses:
     200:
       description: Restaurant has been stored.

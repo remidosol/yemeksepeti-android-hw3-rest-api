@@ -6,8 +6,6 @@
   tags:
    - users
   description: Fetch logged in user's orders
-  produces:
-   - application/json
   responses:
    200:
     description: User's orders have been found.

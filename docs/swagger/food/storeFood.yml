@@ -24,8 +24,6 @@
             imageUrl:
               type: string
               format: binary
-  produces:
-    - application/json
   responses:
     200:
       description: Food has been stored.

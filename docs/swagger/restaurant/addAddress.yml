@@ -43,8 +43,6 @@
             longitude:
               type: number
               example: 36.3361984
-  produces:
-    - application/json
   responses:
     200:
       description: Address has been added to restaurant.

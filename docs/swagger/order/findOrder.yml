@@ -14,8 +14,6 @@
           order_id:
             type: number
             example: 5
-  produces:
-    - application/json
   responses:
     200:
       description: Order has been found.

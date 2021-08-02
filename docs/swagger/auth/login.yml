@@ -16,8 +16,6 @@
             password:
               type: string
               example: 'remidosol4434'
-   produces:
-     - application/json
    responses:
      200:
       description: Logging in is successful.

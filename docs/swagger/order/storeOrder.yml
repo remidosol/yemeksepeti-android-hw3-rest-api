@@ -28,8 +28,6 @@
                 - CASH
                 - COUPON
               example: CREDIT_CARD
-  produces:
-    - application/json
   responses:
     200:
       description: Order has been stored.

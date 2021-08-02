@@ -35,9 +35,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Logging in is successful."
@@ -56,9 +53,6 @@
           "auth"
         ],
         "description": "Log Out",
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Logging out is successful"
@@ -131,9 +125,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "You successfully registered."
@@ -168,9 +159,6 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Food has been deleted."
@@ -200,9 +188,6 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Food has been found."
@@ -226,9 +211,6 @@
             },
             "description": "The number of page (every page fetch 10 items)"
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
@@ -281,9 +263,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Food has been stored."
@@ -307,12 +286,13 @@
             "name": "food_id",
             "in": "path",
             "required": true,
-            "schema": null,
-            "type": "number",
-            "properties": {
-              "food_id": {
-                "type": "number",
-                "example": 5
+            "schema": {
+              "type": "number",
+              "properties": {
+                "food_id": {
+                  "type": "number",
+                  "example": 5
+                }
               }
             }
           }
@@ -345,9 +325,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Food has been updated."
@@ -382,9 +359,6 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Order has been deleted."
@@ -414,9 +388,6 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Order has been found."
@@ -439,9 +410,6 @@
             },
             "description": "The number of page (every page fetch 10 items)"
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
@@ -499,9 +467,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Order has been stored."
@@ -568,9 +533,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Order has been updated."
@@ -651,9 +613,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Address has been added to restaurant."
@@ -695,9 +654,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Address has been added to restaurant."
@@ -732,9 +688,6 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Restaurant has been deleted."
@@ -764,9 +717,6 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Restaurant has been found."
@@ -789,9 +739,6 @@
             },
             "description": "The number of page (every page fetch 10 items)"
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
@@ -844,9 +791,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Restaurant has been stored."
@@ -909,9 +853,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Restaurant has been updated."
@@ -992,9 +933,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "Address has been added to user."
@@ -1029,9 +967,6 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "User has been deleted."
@@ -1061,9 +996,6 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "User has been found."
@@ -1087,9 +1019,6 @@
             "description": "The number of page (every page fetch 10 items)"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "A list of users"
@@ -1108,9 +1037,6 @@
           "users"
         ],
         "description": "Fetch logged in user's orders",
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "User's orders have been found."
@@ -1181,9 +1107,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "User has been stored."
@@ -1261,9 +1184,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "User has been updated."
